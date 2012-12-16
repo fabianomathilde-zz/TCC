@@ -1,0 +1,121 @@
+\documentclass[dissertacao]{ppgccufscar}
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[pdftex]{graphicx}
+\usepackage{ifpdf}
+\usepackage[alf]{abntcite}
+\usepackage{subfig}
+\usepackage{algorithm2e}
+\usepackage{url}
+\usepackage{enumerate}
+
+\titulo{Proxy RouteFlow Baseado em Java}
+%\titulo{Proxy RouteFlow Baseado em Java Usando o Controlador Floodlight}
+\autor{Fabiano Silva Mathilde}
+\orientador[Orientador]{Prof. Dr. Cesar Augusto Cavalheiro Marcondes}
+\coorientador[Coorientador]{Dr. Christian Esteve Rothenberg}
+\areaconcentracao{Sistemas Distribuídos e Redes}
+\data{Dezembro/2012}
+
+
+\begin{document} 
+
+\capa
+\folhaderosto
+\dataaprovacao{09}{Dezembro}{2012}
+\begin{folhadeaprovacao}
+%\examinador{Prof. Dr.Hermes Senger }{DC - UFSCar}
+%\examinador{Prof. Dr. Magnos Martinello }{UFES}
+\end{folhadeaprovacao}
+
+\begin{resumo}
+
+Nos últimos anos o protocolo \textit{OpenFlow} vem aumentando a visibilidade das tecnologias de redes definidas por software, fazendo com que um número cada vez maior de pesquisadores e desenvolvedores o adotem como principal ferramenta para simulações ou aplicações para ambientes reais. O projeto comunitário \textit{RouteFlow} liderado pelo \textit{CPqD} propõe uma plataforma de roteamento IP definido por software (do termo em inglês, \textit{software-defined networking}) baseado no protocolo \textit{OpenFlow}, que permite uma separação efetiva do plano de controle do plano de encaminhamento dos equipamentos de rede. O fato do sistema ter sido criado com o código totalmente aberto fez com que o número de usuários aumenta-se consideravelmente incentivando a equipe de desenvolvedores a atualizá-la constantemente para agregar cada vez mais ferramentas e tecnologias. O \textit{RouteFlow} faz a manipulação do protocolo \textit{OpenFlow} utilizando os softwares de controle mais famosos da literatura, o \textit{NOX}, criado totalmente em \textit{C++} e o \textit{POX}, criado totalmente em \textit{Python}. Para aumentar a capacidade do \textit{RouteFlow} o trabalho em questão descreve a adição de suporte à um novo software de controle, o \textit{Floodlight}, sendo criado totalmente em \textit{Java}. Sendo assim o \textit{RouteFlow} ganhará suporte a mais uma tecnologia mantendo-se sempre na vanguarda das tecnologias de redes definidas por software.     
+
+\palavraschave{Redes Definidas por Software}
+\end{resumo}
+
+\begin{abstract}
+Ainda a ser feito.
+
+\keywords{Software Defined Network}
+\end{abstract}
+
+\listoffigures
+%\listoftables
+
+%% defina aqui o seu glossario
+\acronym{ISP}{\textit{Internet Service Provider}}
+\acronym{IP}{\textit{Internet Protocol}}
+\acronym{UDP}{\textit{User Datagram Protocol}}
+\acronym{TCP}{\textit{Transmission Control Protocol}}
+\acronym{OF}{\textit{OpenFlow}}
+\acronym{ARP}{\textit{Address Resolution Protocol}}
+\acronym{MPLS}{\textit{Multiprotocol Label Switching}}
+\listofacronyms
+
+%% sumario
+\tableofcontents
+
+%% aqui comeca o texto da monografia
+%% voce pode dividir o conteudo em varios arquivos.
+%% por exemplo, intro.tex, fundamentacao.tex, desenvolvimento.tex, conclusao.tex.
+%% dai, vc inclui aqui assim: \input{intro.tex} e assim por diante.
+
+
+%\documentclass[10pt, conference, compsocconf]{IEEEtran}
+
+% correct bad hyphenation here
+%\hyphenation{op-tical net-works semi-conduc-tor}
+%\usepackage[T1]{fontenc}
+%\usepackage[portuguese]{babel}
+%\usepackage[utf8]{inputenc}
+%\usepackage[pdftex]{graphicx}
+%\usepackage{ifpdf}
+%\usepackage{cite}
+%\usepackage{subfig}
+%\usepackage{algorithm2e}
+
+%\begin{document}
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+%\title{Load split within a flow}
+
+% author names and affiliations
+% use a multiple column layout for up to two different
+% affiliations
+
+%\author{\IEEEauthorblockN{Jorge Henrique de Barros Assumpcao}
+%\IEEEauthorblockA{Universidade Federal de São Carlos (UFSCAR)\\
+%Centro de Pesquisa e Desenvolvimento(CPqD)\\
+%Campinas, Brasil\\
+%Email: jbarros@cpqd.com.br}
+%\IEEEauthorblockN{Cesar Augusto Cavalheiro Marcondes}
+%\IEEEauthorblockA{Universidade Federal de São Carlos (UFSCAR)\\
+%São Carlos, Brasil\\
+%Email: marcondes@dc.ufscar.br}
+%}
+
+% make the title area
+%\maketitle
+
+%\begin{abstract}
+%The abstract goes here. DO NOT USE SPECIAL CHARACTERS, SYMBOLS, OR MATH IN YOUR TITLE OR ABSTRACT.
+%\end{abstract}
+
+%\begin{IEEEkeywords}
+%component; formatting; style; styling;
+%\end{IEEEkeywords}
+
+%\IEEEpeerreviewmaketitle
+
+\input{introducao}
+\input{arquitetura_routeflow}
+\input{proxy_routeflow}
+\input{resultados}
+\input{conclusao}
+%\bibliographystyle{abnt}
+\bibliography{bare_conf}
+\end{document}
