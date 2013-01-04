@@ -1,13 +1,12 @@
 \chapter{Proxy RouteFlow em Java}
 
-\section{Descrição da Estrutura do Proxy RouteFlow em Java}
+\section{Descrição Geral da Estrutura do Proxy RouteFlow em Java}
 
 Todos os componentes do proxy RouteFlow em Java foram agrupados em classes. O agrupamento em classes facilita a 
-organização geral do código bem como a sua futura manutenção. Abaixo temos os componentes do proxy com suas respecitivas
-descrições:
+organização geral do código bem como a sua futura manutenção. Abaixo temos os componentes do proxy com suas respecitivas descrições:
 
 \begin{itemize}
-\item \textit{MongoIPCMessageService:} responsável pela comunicação entre o servidor RouteFlow e o proxy RouteFlow;
+\item \textit{MongoIPCMessageService:} responsável pela comunicação entre o servidor RouteFlow e o proxy RouteFlow. A arquitetura básica do projeto RouteFlow faz uso de um banco de dados não SQL para troca de mensagens entre seus componentes, sendo que o banco de dados escolhido foi o MongoDB. O MongoDB possui alto desempenho sendo totalmente escrito em C++, outro aspecto importante é o fato de não ser SQL, o que facilita a sua integração com as linguagens de programação. O RouteFlow cria inúmeras tabelas no banco de dados, cada uma responsável pela comunicação entre um par de componentes, como toda comunicação é feita através de um sistema de banco de dados é possível que a comunicação entre componentes seja feita de forma simples, sem nenhum vinculo com a linguagem de implementação do mesmo. O componente MongoIPCMessageService cria um IPC (Inter-Process Communication) entre o servidor RouteFlow e o proxy RouteFlow. Os comandos são enviados de um componente para o outro na forma de mensagens pré-definidas. Cada mensagem define uma ação à ser tomada em relação aos eventos que vão ocorrendo. No corpo da mensagem estão os parâmetros que deverão ser usados para tomada da ação. Todas as mensagens que são colocadas na tabela pelo servidor RouteFlow possuem um campo que indica se a mesma já foi tratada e em caso negativo cabe ao proxy tomar a ação e atualizar o campo da mensagem. Para tratamento das mensagens é gerado uma thread em looping infinito cujo único proposito de existência é o tratamento de novas mensagens. Essa caracteristica pretende ser melhorada nas próximas versões do RouteFlow;
 \item \textit{RFProtocolFactory:} responsável pela criação das mensagens do protocolo RouteFlow;
 \item \textit{RFProtocolProcessor:} responsável pelo processamento de mensagens vindas do servidor RouteFlow.
 \end{itemize} 
