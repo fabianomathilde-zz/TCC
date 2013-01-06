@@ -2,14 +2,66 @@
 
 \section{Descrição Geral da Estrutura do Proxy RouteFlow em Java}
 
-Todos os componentes do proxy RouteFlow em Java foram agrupados em classes. O agrupamento em classes facilita a 
-organização geral do código bem como a sua futura manutenção. Abaixo temos os componentes do proxy com suas respecitivas descrições:
+Todos os componentes do proxy RouteFlow em Java foram agrupados em classes. O agrupamento em classes 
+facilita a 
+organização geral do código bem como a sua futura manutenção. Abaixo temos os componentes do proxy com 
+suas respecitivas descrições:
 
 \begin{itemize}
-\item \textit{MongoIPCMessageService:} responsável pela comunicação entre o servidor RouteFlow e o proxy RouteFlow. A arquitetura básica do projeto RouteFlow faz uso de um banco de dados não SQL para troca de mensagens entre seus componentes, sendo que o banco de dados escolhido foi o MongoDB. O MongoDB possui alto desempenho sendo totalmente escrito em C++, outro aspecto importante é o fato de não ser SQL, o que facilita a sua integração com as linguagens de programação. O RouteFlow cria inúmeras tabelas no banco de dados, cada uma responsável pela comunicação entre um par de componentes, como toda comunicação é feita através de um sistema de banco de dados é possível que a comunicação entre componentes seja feita de forma simples, sem nenhum vinculo com a linguagem de implementação do mesmo. O componente MongoIPCMessageService cria um IPC (Inter-Process Communication) entre o servidor RouteFlow e o proxy RouteFlow. Os comandos são enviados de um componente para o outro na forma de mensagens pré-definidas. Cada mensagem define uma ação à ser tomada em relação aos eventos que vão ocorrendo. No corpo da mensagem estão os parâmetros que deverão ser usados para tomada da ação. Todas as mensagens que são colocadas na tabela pelo servidor RouteFlow possuem um campo que indica se a mesma já foi tratada e em caso negativo cabe ao proxy tomar a ação e atualizar o campo da mensagem. Para tratamento das mensagens é gerado uma thread em looping infinito cujo único proposito de existência é o tratamento de novas mensagens. Essa caracteristica pretende ser melhorada nas próximas versões do RouteFlow;
-\item \textit{RFProtocolFactory:} responsável pela criação das mensagens do protocolo RouteFlow;
-\item \textit{RFProtocolProcessor:} responsável pelo processamento de mensagens vindas do servidor RouteFlow.
+\item \textit{MongoIPCMessageService:} Responsável pela comunicação entre o servidor RouteFlow e o proxy 
+RouteFlow. A arquitetura básica do projeto RouteFlow faz uso de um banco de dados não SQL para troca de 
+mensagens entre seus componentes, sendo que o banco de dados escolhido foi o MongoDB. O MongoDB possui 
+alto desempenho sendo totalmente escrito em C++, outro aspecto importante é o fato de não ser SQL, o 
+que facilita a sua integração com as  principais linguagens de programação. 
+O RouteFlow cria inúmeras tabelas no banco de dados, cada uma responsável pela comunicação entre um par 
+de componentes, como toda comunicação é feita através de um sistema de banco de dados é possível que a 
+comunicação entre componentes seja feita de forma simples, sem nenhum vinculo com a linguagem de 
+implementação do mesmo. O componente MongoIPCMessageService cria um IPC (Inter-Process Communication) 
+entre o servidor RouteFlow e o proxy RouteFlow. Os comandos são enviados de um componente para o outro 
+na forma de mensagens pré-definidas. Cada mensagem define uma ação à ser tomada em relação aos eventos 
+que vão ocorrendo ao longo da execução do ambiente. No corpo da mensagem estão os parâmetros que 
+deverão ser usados para tomada da ação. Todas as mensagens que são colocadas na tabela pelo servidor RouteFlow 
+possuem um campo que indica se a mesma já foi tratada e em caso negativo cabe ao proxy tomar a ação e 
+atualizar o campo da mensagem. Para tratamento das mensagens é gerado uma thread em looping infinito 
+cujo único proposito de existência é o tratamento de novas mensagens. Essa característica pretende ser 
+
+melhorada nas próximas versões do RouteFlow;
+\item \textit{RFProtocolFactory:} Responsável pela criação das mensagens do protocolo RouteFlow. Cada 
+tipo de mensagem RouteFlow é representada por um código e por uma respectiva classe. É papel do 
+RFProtocolFactory retornar os objetos de mensagens à partir de seu código. Esta estrutura facilita a 
+inserção de novas mensagens no ambiente evitando a reprogramação de outras classes;
+\item \textit{RFProtocolProcessor:} Responsável pelo processamento de mensagens vindas do servidor 
+RouteFlow. Este componente define o como será tratada cada mensagem vinda do servidor RouteFlow. As 
+mensagens são lidas através do IPC e repassadas para tratamento.
+\item \textit{AssociationTable:} Tabela mantida pelo proxy para armazenar a associação entre portas no 
+ambiente virtual e porta no ambiente físico.
 \end{itemize} 
 
 \section{Descrição das Mensagens Traduzidas pelo Proxy RouteFlow}
+
+\begin{itemize}
+\item \textit{PortRegister}
+\item \textit{PortConfig}
+\item \textit{DatapathConfig}
+\item \textit{RouteInfo}
+\item \textit{FlowMod:} Mensagem utilizada para solicitação da instalação de regras nos switches 
+OpenFlow. As mensagens FlowMod possuem em seu corpo um conjunto de parâmetros que define uma nova regra 
+a ser aplicada à um switch OpenFlow. Cabe ao proxy criar a regra e envia-la corretamente ao switch. 
+Para envio das regras é necessário a manipulação do protocolo OpenFlow. O Floodlight fornece uma série de 
+funções para esse proposito, sendo usado como uma API de comunicação entre os switches OpenFlow e o 
+proxy.
+\item \textit{DatapathPortRegister:} Mensagem utilizada para registrar as portas dos switches OpenFlow 
+no servidor RouteFlow. Esse registro é feito para que cada porta seja associada à uma porta da máquina 
+virtual do ambiente virtual.
+\item \textit{DatapathDown:} Mensagem utilizada para que o proxy informe ao servidor RouteFlow sobre a 
+desconexão de um switch OpenFlow. O Floodlight, no papel de controlador OpenFlow, mantem um conjunto de 
+informações à respeito dos switches OpenFlow ativos, podendo detectar quedas nas conexões dos mesmos. O 
+servidor RouteFlow necessita ter esse tipo de informação para possíveis alterações nas regras dos 
+switches OpenFlow.
+\item \textit{VirtualPlaneMap:} Mensagem utilizada para que o proxy associa cada porta do switch 
+OpenFlow à uma porta de uma máquina virtual no ambiente virtual.
+\item \textit{DataPlaneMap:} Mensagem utilizada para que o servidor RouteFlow informe ao proxy à 
+respeito de uma associação de porta bem sucedida. O proxy mantém uma tabela de associação entre portas 
+no ambiente virtual e portas no ambiente físico.
+\end{itemize}
 
