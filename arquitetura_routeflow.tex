@@ -19,7 +19,7 @@ se tornaram de fácil acesso a estabilidade se tornou uma
 característica fundamental das redes de computadores. Isso
 significa que pesquisas com novas tecnologias e protocolos
 já não são mais possíveis em redes de larga escala, como a
-internet, devido ao risco de interrupção ou instabilidade
+Internet, devido ao risco de interrupção ou instabilidade
 dos serviços essenciais. Outro problema encontrado pelos
 pesquisadores é o fato de que a larga utilização de
 tecnologias já desenvolvidas inviabiliza a inserção de
@@ -32,7 +32,7 @@ desenvolvidas nesses ambientes. O potencial de instabilidade
 ou ruptura de tais avanços se torna um forte argumento
 contra sua adoção.
 
-Esses problemas citados acima só ocorrem pelo fato das redes
+Esses problemas citados acima só ocorrem pelo fato de que redes
 de computadores em geral e a rede mundial (a Internet)
 atingiram um nível de amadurecimento que as tornaram pouco 
 flexíveis.
@@ -66,7 +66,7 @@ atual é o encaminhamento de pacotes, algumas iniciativas
 propõem manter essa operação pouco alterada, para manter 
 a viabilidade de desenvolvimento de hardware de alto
 desempenho, mas com uma possibilidade de maior controle 
-por parte do administrador de rede. Essa proposta se inspira 
+por parte dos administradores de rede. Essa proposta se inspira 
 em uma tecnologia já largamente adotada, o chaveamento
 (encaminhamento) baseado em rótulos programáveis, 
 popularizado pelo MLPS \textit{(Multi-protocol Label
@@ -81,8 +81,8 @@ assumindo que os mesmos possam ser identificados para
 receberem os rótulos apropriados. Com base nessa observação,
 uma ideia trabalhada por diversos pesquisadores é a manutenção 
 de um hardware de encaminhamento de alto desempenho, com
-a possibilidade de permitir que o administrador de rede (ou 
-o desenvolvedor de aplicações para a rede) determine como 
+a possibilidade de permitir que os administradores de redes (ou 
+os desenvolvedores de aplicações para a rede) determinem como 
 os fluxos irão ser rotulados e encaminhados.
 
 A iniciativa mais bem sucedida nesse sentido foi, sem dúvida,
@@ -102,23 +102,24 @@ expressas em software. A esse novo paradigma, deu-se o
 nome de Redes Definidas por Software, ou \textit{Software
 Defined Networks} (SDN).
 
-Do ponto de vista histórico, SDNs têm sua origem na definição
-da arquitetura de redes \textit{Ethane}. que definia uma forma
+Do ponto de vista histórico, as Redes Definidas por 
+Software têm sua origem na definição
+da arquitetura de redes \textit{Ethane}, que definia uma forma
 de se implementar políticas de controle de acesso de forma 
 distribuída, a partir de um mecanismo de supervisão centralizado
 [Casado et al. 2009]. Naquela arquitetura, cada elemento de 
 rede deveria consultar o elemento supervisor ao identificar um
 novo fluxo. O supervisor consultaria um grupo de políticas 
 globais para decidir, com base nas características de cada
-fluxo, como o elemento de encaminhamento que deveria 
+fluxo, como o elemento de encaminhamento deveria 
 tratá-lo. Essa decisão seria comunicada ao comutador na 
 forma de programação de uma entrada em sua tabela de
 encaminhamento com uma regra adequada para o novo fluxo (
 que poderia, inclusive, ser seu descarte). Esse modelo foi
 posteriormente formalizado por alguns autores na forma da 
-arquitetura OpenFlow.
+arquitetura \textit{OpenFlow}.
 
-\section{Descrição do Protocolo OpenFlow}
+\section{Descrição do Protocolo \textit{OpenFlow}}
 
 O \textit{OpenFlow} foi proposto pela Universidade de
 Stanford para atender à demanda de validação de novas
@@ -132,20 +133,20 @@ com a operação normal das redes. Isso é conseguido com a
 definição de uma interface de programação que permite 
 ao desenvolvedor controlar diretamente os elementos de 
 encaminhamento de pacotes presentes no dispositivo. Com o 
-OpenFlow, pesquisadores podem utilizar equipamentos de 
+\textit{OpenFlow}, pesquisadores podem utilizar equipamentos de 
 rede comerciais, que normalmente possuem maior poder 
 de processamento que os comutadores utilizados em 
 laboratórios de pesquisa, para realizar experimentos em redes
 "de produção". Isso facilita muito a transferência dos resultados
 de pesquisa para a industria. 
 
-Uma característica básica da arquitetura do padrão OpenFlow 
+Uma característica básica da arquitetura do padrão \textit{OpenFlow} 
 é a separação clara entre os planos de dados e controle em
 elementos de chaveamento. O plano de dados cuida do 
-encaminhamento de pacotes com base em regras simples (
-chamadas de ações na terminologia OpenFlow) associadas
+encaminhamento de pacotes com base em regras simples (chamadas de ações na terminologia \textit{OpenFlow}) associadas
 a cada entrada da tabela de encaminhamento do comutador 
-de pacotes (podendo ser um \textit{switch} ou um roteador).
+de pacotes (podendo ser um \textit{switch}, um roteador 
+ou até mesmo um ponto de acesso sem fio).
 Essas regras, definidas pelo padrão, incluem (\textit{i}) 
 encaminhar o pacote para uma porta especifica do dispositivo,
 (\textit{ii}) alterar parte de seus cabeçalhos, (\textit{iii}) 
@@ -176,19 +177,25 @@ baseado na tomada de decisão fundamentada em algum valor, ou
 combinação de valores, dos campos de cabeçalho dos pacotes
 pode ser suportado.
 
-Um grande trunfo da arquitetura OpenFlow é a flexibilidade 
+\begin{figure}[hb] \centering
+\includegraphics[width=160mm]{cabecalhoOpenflow.png}
+\caption{Cabeçalho \textit{OpenFlow} para a especificação dos fluxos}
+\label{fig:cabecalhoOpenflow}
+\end{figure}
+
+Um grande trunfo da arquitetura \textit{OpenFlow} é a flexibilidade 
 que ela oferece para se programar de forma independente do
 tratamento de cada fluxo observado, do ponto de vista de como
 o mesmo deve (ou não) ser encaminhado pela rede. Basicamente,
-o padrão OpenFlow determina como um fluxo pode ser definido,
+o padrão \textit{OpenFlow} determina como um fluxo pode ser definido,
 as ações que podem ser realizadas para cada pacote pertencente
 a um fluxo e o protocolo de comunicação entre o comutador de 
 pacotes e o controlador, utilizado para realizar alterações dessas 
 definições e ações. A união de uma definição de fluxo e um
 conjunto de ações forma uma entrada da tabela de fluxos 
-OpenFlow [McKeown et al. 2008].
+\textit{OpenFlow} [McKeown et al. 2008].
 
-Em um \textit{switch} OpenFlow, cada entrada na tabela de 
+Em um \textit{switch} \textit{OpenFlow}, cada entrada na tabela de 
 fluxos pode ser implementada como um padrão de bits 
 representado em uma memória TCAM (Ternary Content-
 Addressable Memory). Nesse tipo de memória, bits podem
@@ -197,8 +204,8 @@ ser representados como zero, um ou "não importa"
 aceitáveis naquela posição. Como o padrão é programado
 a partir do plano de controle, fluxos podem ser definidos da 
 forma escolhida pelo controlador. A figura \ref{fig:fluxoopenflow}
-apresenta uma visão geral de uma entrada da tabela OpenFlow.
-Cada pacote que chega a um comutador OpenFlow é comparado
+apresenta uma visão geral de uma entrada da tabela \textit{OpenFlow}.
+Cada pacote que chega a um comutador \textit{OpenFlow} é comparado
 com cada entrada dessa tabela; caso um casamento seja encontrado,
 considera-se que o pacote pertence àquele fluxo e aplica-se
 as ações relacionadas à esse fluxo. Caso um casamento não
@@ -206,96 +213,94 @@ seja encontrado, o pacote é encaminhado para o controlador
 para ser processado -- o que pode resultar na criação de uma
 nova entrada para aquele fluxo. Além das ações, a arquitetura
 prevê a manutenção de três contadores por fluxo: pacotes,
- bytes trafegados e duração do fluxo. Esses contadores são 
+ \textit{bytes} trafegados e duração do fluxo. Esses contadores são 
 implementados para cada entrada da tabela de fluxos e 
 podem ser acessados pelo controlador através do protocolo
-OpenFlow.
+\textit{OpenFlow}.
 
 \begin{figure}[hb] \centering
-\includegraphics[width=110mm]{fluxoOpenflow.png} 
-\caption{Exemplo de uma entrada na tabela de fluxos OpenFlow.} 
+\includegraphics[width=160mm]{fluxoOpenflow.png} 
+\caption{Exemplo de uma entrada na tabela de fluxos \textit{OpenFlow}.} 
 \label{fig:fluxoopenflow} 
 \end{figure}
 
 Esse pequeno conjunto de regras cria diversas possibilidades,
 pois muitas das funcionalidades que são implementadas 
 separadamente podem ser agrupadas em um único controlador
-OpenFlow, utilizando um pequeno conjunto de regras. Alguns 
-exemplos das possibilidades são apresentadas na \ref{fig:exemploSwitchOpenFlow}.
-As entradas representam o uso do \textit{switch} OpenFlow
+\textit{OpenFlow}, utilizando um pequeno conjunto de regras. Alguns 
+exemplos das possibilidades são apresentadas na Figura \ref{fig:exemploSwitchOpenFlow}.
+As entradas representam o uso do \textit{switch} \textit{OpenFlow}
 para realizar encaminhamento de pacotes na camada de enlace,
 implementar um firewall e realizar encaminhamento de pacotes 
-na camada de enlace utilizando VLANs, respectivamente.
+na camada de enlace utilizando redes virtuais (VLANs), respectivamente.
 
 \begin{figure}[hb] \centering
-\includegraphics[width=110mm]{exemploSwitchOpenFlow.png} 
-\caption{Exemplos de uso de um Switch OpenFlow.} 
+\includegraphics[width=160mm]{exemploSwitchOpenFlow.png} 
+\caption{Exemplos de uso de um \textit{Switch OpenFlow}.} 
 \label{fig:exemploSwitchOpenFlow} 
 \end{figure}
 
 Apesar de possuir um conjunto pequeno de ações simples, 
-alguns descrevem o OpenFlow como uma analogia ao conjunto 
+alguns descrevem o \textit{OpenFlow} como uma analogia ao conjunto 
 de instruções de um microprocessador x86 que, apesar de 
 pequeno e simples, provê uma vasta gama de possibilidades 
-para o desenvolvimento de aplicações. O OpenFlow cria 
+para o desenvolvimento de aplicações. O \textit{OpenFlow} cria 
 possibilidades semelhantes para o desenvolvimento de 
 aplicações no contexto de redes de computadores. 
 
-O \textit{OpenFlow} define um protocolo-padrão
-para determinar as ações de encaminhamento de pacotes em
-dispositivos de rede, como, por exemplo, comutadores,
-roteadores e pontos de acesso sem fio. As regras e ações
-instaladas no hardware de rede são responsabilidade de um
-elemento externo, denominado controlador, que pode ser
-implementado em um servidor comum, conforme Figura
-\ref{fig:openflow}.
+A versão atual do \textit{OpenFlow} ainda possui algumas limitações
+em termos do uso padrão em circuitos ópticos e uma definição 
+de fluxos que englobe protocolos que não fazem parte do 
+modelo TCP/IP. No entanto, está sendo formulada uma nova
+versão cujo objetivo é eliminar algumas dessas limitações.
+
+A Figura \ref{fig:openflow} define de forma introdutória uma 
+rede de computadores com o protocolo \textit{OpenFlow} habilitado. Os 
+elementos comutadores podem ser de qualquer tipo, como 
+comutadores convencionais, roteadores ou até mesmo pontos
+de acesso sem fio. Podemos ver o elemento externo, chamado
+de controlador, tomando contas das regras e ações instaladas
+no hardware de rede. O controlador pode ser executado em 
+qualquer equipamento com suporte à redes, como um 
+servidor comum.
 
 \begin{figure}[hb] \centering
-\includegraphics[width=110mm]{openflow.png} 
-\caption{Rede com OpenFlow Habilitado} 
+\includegraphics[width=160mm]{openflow.png} 
+\caption{Rede com o protocolo \textit{OpenFlow} Habilitado.} 
 \label{fig:openflow} 
 \end{figure}
 
+\section{Introdução ao Projeto Comunitário RouteFlow}
 
-
-\begin{figure}[hb] \centering
-\includegraphics[width=160mm]{cabecalhoOpenflow.png}
-\caption{Cabeçalho OpenFlow para a especificação dos fluxos}
-\label{fig:cabecalhoOpenflow}
-\end{figure}
-
-De forma pragmática, a especificação \textit{OpenFlow}
-(OPENFLOW, 2010) procura reutilizar as funcionalidades do
-hardware existente (por exemplo, Access Control List – ACL
-em switches e roteadores para implementar serviços como NAT,
-firewall e VLANs) através da definição de um conjunto
-simples de regras e das ações associadas: encaminhar,
-descartar, enviar para o controlador, reescrever campos do
-cabeçalho, etc.
-
-\section{Introdução ao RouteFlow}
-
-O RouteFlow é uma proposta de oferta de serviços de
+O projeto comunitário RouteFlow é uma proposta de oferta de serviços de
 roteamento IP remoto de forma centralizada, e que visa um
 desacoplamento efetivo entre o plano de encaminhamento e o
 plano de controle (ROUTEFLOW, 2011). O objetivo é tornar as
 redes IP mais flexíveis pela facilidade de adição,
 remoção e especialização de protocolos e algoritmos.
+
 O RouteFlow armazena a lógica de
-controle dos switches OpenFlow na infraestrutura de rede,
-através de uma rede virtual composta por máquinas virtuais
-(MV), cada uma executando um código
+controle dos \textit{switches OpenFlow} na infraestrutura de rede,
+através de uma rede virtual composta por máquinas virtuais, cada uma executando um código
 (engine) de roteamento de domínio público (open source).
-Essas MVs podem ser interconectadas
+Essas máquinas virtuais podem ser interconectadas
 de maneira a formar uma topologia lógica, espelhando a
 topologia de uma rede física correspondente ou uma topologia
 virtual simplificada. O ambiente virtual é armazenado em um
 servidor externo, ou um conjunto deles, que se comunicam com
 os equipamentos do plano de dados através de um controlador
-OpenFlow, que transporta para o plano de encaminhamento as
+\textit{OpenFlow}, que transporta para o plano de encaminhamento as
 decisões tomadas pelos protocolos de roteamento no plano de
-controle (OSPF, BGP, RIP). A Figura
-\ref{fig:visaoGeralRouteFlow} ilustra uma sub-rede com
+controle (OSPF, BGP, RIP). 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=160mm]{visaoGeralRouteFlow.png}
+\caption{Visão geral do RouteFlow.}
+\label{fig:visaoGeralRouteFlow} 
+\end{figure}
+
+A Figura \ref{fig:visaoGeralRouteFlow} ilustra uma sub-rede com
 switches programáveis, em que a lógica de roteamento é
 implementada no servidor RouteFlow. O resultado consiste
 numa solução flexível de alto desempenho e comercialmente
@@ -304,7 +309,7 @@ como, por exemplo:
 
 \begin{enumerate}[{a)}] 
 \item switches programáveis de baixo
-custo e software embarcado reduzido (OpenFlow); 
+custo e software embarcado reduzido (\textit{OpenFlow}); 
 \item pilhas de protocolos de roteamento open source (QUAGGA, 2009; XORP,
 2011); e 
 \item servidor de prateleira de alto poder de
@@ -317,12 +322,6 @@ forma, não é necessária qualquer alteração dos protocolos de
 roteamento existentes. Além disso, a solução pode tornar-se
 mais escalável no futuro, com o uso
 de vários servidores de alto desempenho.
-
-\begin{figure}[hb] \centering
-\includegraphics[width=135mm]{visaoGeralRouteFlow.png}
-\caption{Visão geral do RouteFlow}
-\label{fig:visaoGeralRouteFlow} 
-\end{figure}
 
 \section{Descrições dos Principais Componentes do RouteFlow}
 O RouteFlow é dividido basicamente em três aplicações
@@ -337,27 +336,30 @@ mudanças na tabela ARP do Linux e na tabela de roteamento.
 As informações de roteamento são enviadas para o
 RFServer quando são atualizadas.
 \item RFServer é uma aplicação independente que gerencia as
-máquinas virtuais que estão executando o RFClient. O
-RFServer mantem o mapeamento entre as instâncias das
+máquinas virtuais que estão executando o RFClient. 
+
+O RFServer mantem o mapeamento entre as instâncias das
 máquinas virtuais executando o RFClient e as interfaces
 correspondentes aos switches e suas respectivas portas. É
 conectado ao RFProxy para instruí-lo como configurar os
 fluxos e também como configurar o Open vSwitch que mantém a
 conectividade de todo o ambiente composto pelas máquinas virtuais.
 \item RFProxy é uma aplicação responsável pelas interações
-entre os switches OpenFlow (identificados pelos seus
-datapaths) via o protocolo OpenFlow. Ele aguarda instruções
+entre os switches \textit{OpenFlow} (identificados pelos seus
+datapaths) via o protocolo \textit{OpenFlow}. Ele aguarda instruções
 do RFServer e o notifica à respeito de eventos na rede.
 Atualmente é executado como um módulo vinculado aos
-controladores OpenFlow. O RouteFlow tem suporte aos
+controladores \textit{OpenFlow}. 
+
+O RouteFlow tem suporte aos
 controladores NOX e POX, sendo que a proposta do trabalho é
 adicionar suporte ao Floodlight. 
 \end{itemize}
 
-\begin{figure}[hb] 
+\begin{figure}[h] 
 \centering
-\includegraphics[width=125mm]{componentesRouteFlow.png}
-\caption{Componentes principais do RouteFlow}
+\includegraphics[width=150mm]{componentesRouteFlow.png}
+\caption{Componentes principais do RouteFlow.}
 \label{fig:componentesRouteFlow} 
 \end{figure}
 
@@ -370,10 +372,12 @@ das máquinas virtuais e, também, gerenciamento das entradas
 de roteamento em hardware. Entre os campos da
 mensagem-padrão estão: identificação do controlador,
 identificação da máquina virtual, tipo da mensagem,
-comprimento e dados. O proxy RouteFlow recebe os comandos do
+comprimento e dados. 
+
+O proxy RouteFlow recebe os comandos do
 servidor RouteFlow através deste protocolo e de acordo com o
 tipo de comando executa as principais ações, muitas delas
 exigindo a comunicação com os switches físicos. A
 comunicação com os switches físicos é feita via protocolo
-OpenFlow, fazendo o proxy RouteFlow agir como
+\textit{OpenFlow}, fazendo o proxy RouteFlow agir como
 uma espécie de "tradutor" entre os dois protocolos.
