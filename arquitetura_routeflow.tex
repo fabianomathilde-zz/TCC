@@ -279,6 +279,86 @@ plano de controle (ROUTEFLOW, 2011). O objetivo é tornar as
 redes IP mais flexíveis pela facilidade de adição,
 remoção e especialização de protocolos e algoritmos.
 
+
+O RouteFlow prove um serviço virtualizado de roteamento IP
+em equipamentos com suporte ao protocolo \textit{OpenFlow}
+seguindo o paradigma das redes definidas por software.
+Basicamente, o RouteFlow interliga uma infraestrutura 
+\textit{OpenFlow} com um ambiente virtual de roteamento 
+IP baseado em ferramentas nativas do Linux (Quagga) para
+um roteamento eficiente na estrutura física. Baseado em um
+sistema de controle RouteFlow, os \textit{switches} 
+são instruídos via controladores \textit{OpenFlow} que 
+trabalham como proxies no intuito de traduzir as mensagens
+e eventos entre o ambiente físico e virtual. 
+
+O projeto conta com um número crescente de usuários no 
+mundo (cerca de 1000 downloads e mais de 10000 visitantes
+desde que o projeto começou em Abril de 2010). As principais
+formas de contribuição para o projeto é através do sistema
+de repositórios GitHub. Para citar alguns exemplos de contribuição
+por parte da comunidade, é possível citar a contribuição
+do Google nos plugins SNMP e o trabalho atual no suporte
+ao MPLS e nas APIs de roteamento Quagga. A universidade
+americana de Indiana contribuiu com uma interface gráfica
+e com a execução de um piloto em seu \textit{testbed}.
+% É possível adicionar mais exemplos de contribuições externas
+
+
+O RouteFlow é composto basicamente por três módulos principais:
+o cliente RouteFlow (RFClient), o servidor RouteFlow (RFServer) e
+o proxy RouteFlow. A Figura \ref{fig:visaoGeralRouteFlow} mostra
+de forma simplificada um cenário RouteFlow típico: engines de 
+roteamento em um ambiente virtual geram uma base de 
+informação de encaminhamento baseado nos protocolos 
+de roteamento (OSPF, BGP) e processos ARP. Durante a 
+execução do ambiente virtual, as tabelas de roteamento e 
+tabelas ARP são coletadas pelos módulos RFClient executando
+nas máquinas virtuais e traduzido em tuplas OpenFlow que
+são enviadas para o RFServer, que faz a adaptação das 
+informações para o ambiente físico e finalmente instrui o 
+módulo RFProxy, uma aplicação controladora, para configurar
+os \textit{switches OpenFlow} no ambiente físico.
+
+Pacotes de encaminhamento dos protocolos de roteamento 
+e controle de trágico (ARP, BGP, RIP e OSPF) são direcionados
+pelo RFProxy para as interfaces virtuais correspondentes do
+ambiente virtual. Entre o ambiente virtual e o ambiente existe
+um switch virtual que também é controlado pelo RFProxy,
+permitindo um caminho direto entre os ambientes, reduzindo 
+o tempo das trocas de mensagens e sem a necessidade de passar
+através do RFServer e do RFClient.
+
+Abaixo temos os principais avanços da arquitetura do projeto
+RouteFlow
+
+\begin{itemize}
+\item \textbf{Plataforma totalmente modular, extensível, 
+configurável e flexível:} a arquitetura atual do RouteFlow 
+foi feita pensando em sua própria evolução. Através do 
+conceito de camadas, o RouteFlow conseguiu facilitar o entendimento
+geral do código, facilitando o seu entendimento total por parte de 
+seus usuários. A construção baseada em módulos independentes
+torna o código mais claro, facilitando a portabilidade para outras 
+linguagens ou o suporte à novas tecnologias. O exemplo mais 
+claro sobre a independência é o próprio módulo levado em consideração
+na construção do trabalho de conclusão de curso em questão, o
+RFProxy. 
+
+O RFProxy faz a troca de mensagens com os outros módulos 
+através de um sistema de banco de dados, sendo facilmente
+portado para outras linguagens de programação e tecnologias.
+
+Outro beneficio da construção baseada em módulos é a possibilidade
+de execução do RouteFlow em múltiplos sistemas computacionais, 
+fazendo-o executar com uma arquitetura distribuída. 
+\item \textbf{Suporte à replicação do estado da rede e grande
+disponibilidade dos recursos:}
+\item \textbf{Armazenamento do histórico da rede e de estatísticas:}
+\item \textbf{Possibilidade de ambientes com múltiplos controladores
+\textit{OpenFlow}:}
+\end{itemize}
+
 O RouteFlow armazena a lógica de
 controle dos \textit{switches OpenFlow} na infraestrutura de rede,
 através de uma rede virtual composta por máquinas virtuais, cada uma executando um código
