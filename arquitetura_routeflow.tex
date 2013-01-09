@@ -6,16 +6,16 @@ um novo paradigma para o desenvolvimento de pesquisas em
 redes de computadores que vem ganhando a atenção de grande
 parte da comunidade acadêmica e da industria da área de
 redes. Fazendo um balanço geral da situação que encontramos
-hoje podemos dizer que é um pouco complexa: podemos afirmar
+hoje, podemos dizer que é um pouco complexa: é possível afirmar
 que a área de redes fez um sucesso estrondoso, já que hoje a
 tecnologia de redes de computadores permeia todos os níveis
 da sociedade. Grande parte das atividades da sociedade de
 alguma forma passa por uma ou mais redes de computadores.
 
-Tamanho sucesso trouxe consigo um problema para a comunidade
+Mas tamanho sucesso trouxe consigo um problema para a comunidade
 de pesquisa. Como grande parte da sociedade depende hoje da
-internet em suas atividades diárias e tecnologias de acesso
-se tornaram de fácil acesso a estabilidade se tornou uma
+internet em suas atividades diárias e as tecnologias de rede
+se tornaram de fácil acesso, a estabilidade se tornou uma
 característica fundamental das redes de computadores. Isso
 significa que pesquisas com novas tecnologias e protocolos
 já não são mais possíveis em redes de larga escala, como a
@@ -26,7 +26,7 @@ tecnologias já desenvolvidas inviabiliza a inserção de
 qualquer tecnologia que exija a inserção de novos
 equipamentos de hardware.
 
-Mesmo pesquisadores trabalhando em redes experimental sofrem
+Mesmo pesquisadores trabalhando em redes experimentais sofrem
 para justificar a adoção em larga escala das tecnologias
 desenvolvidas nesses ambientes. O potencial de instabilidade
 ou ruptura de tais avanços se torna um forte argumento
@@ -143,7 +143,8 @@ de pesquisa para a industria.
 Uma característica básica da arquitetura do padrão \textit{OpenFlow} 
 é a separação clara entre os planos de dados e controle em
 elementos de chaveamento. O plano de dados cuida do 
-encaminhamento de pacotes com base em regras simples (chamadas de ações na terminologia \textit{OpenFlow}) associadas
+encaminhamento de pacotes com base em regras simples (chamadas de ações 
+na terminologia \textit{OpenFlow}) associadas
 a cada entrada da tabela de encaminhamento do comutador 
 de pacotes (podendo ser um \textit{switch}, um roteador 
 ou até mesmo um ponto de acesso sem fio).
@@ -154,7 +155,7 @@ descartá-los, ou (\textit{iv}) encaminhá-lo para inspeção
 por um controlador da rede. Em dispositivos dedicados, o plano
 de dados pode ser implementado em hardware utilizando os
 elementos comuns aos roteadores e \textit{switches} atuais.
-Já o módulo de controle permite ao controlador pode ser um 
+Já o módulo de controle (ou controladoor) pode ser um 
 módulo de software implementado de forma independente em
 algum ponto da rede.
 
