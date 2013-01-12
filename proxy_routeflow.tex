@@ -1,5 +1,108 @@
 \chapter{Proxy RouteFlow em Java}
 
+\section{Introdução aos Proxies RouteFlow (RFProxy)}
+
+Nos capítulo à respeito do projeto RouteFlow foi dado
+uma visão geral de todos os três módulos usados para
+construir o projeto. Esse capitulo se foca principal no 
+módulo proxy, desenvolvido como foco principal do trabalho de
+conclusão de curso.
+
+Como já dito nos capítulos anteriores, o proxy RouteFlow ou
+RFProxy atua como um tradutor de protocolos, convertendo
+mensagens no protocolo RouteFlow para o protocolo OpenFlow
+e vice-versa. Todos os eventos do ambiente físico são notificados
+ao servidor na forma de mensagens, sendo as mesmas tratadas 
+e processadas de acordo com o evento. Cada evento gera uma 
+ação ao servidor (RFServer), que responde na forma de uma 
+mensagem ao proxy (RFProxy), instruindo-o a tomar certa atitude.
+Dentro dessas atitudes estão a criação das regras nos \textit{
+switches OpenFlow}, fazendo toda a rede física se comportar
+da maneira proposta pelo ambiente virtual e seus algoritmos de
+roteamento.
+
+As mensagens do protocolo RouteFlow, como já citado nos
+capítulos anteriores, vem via o mecanismo de troca de mensagens
+entre processos (IPC) implementado através do banco de dados
+centralizado. Tal característica força o desenvolvedor escolher
+as linguagens de programação com suporte à manipulação do
+banco de dados usado pelo projeto RouteFlow, que no caso
+é o MongoDB.
+
+As mensagens do protocolo \textit{OpenFlow} são advindas do ambiente
+físico e necessitam de algum mecanismo de captura e processamento.
+Tal mecanismo é provido pelos softwares de controle \textit{
+OpenFlow}. Dentre os diversos disponíveis, os mais famosos
+são o NOX, o POX e o Floodlight. Todos os controladores
+\textit{OpenFlow} são operados apenas como 
+interfaces de programação, provendo todas as funções de captura
+de eventos e criação de mensagens do protocolo \textit{OpenFlow}.
+
+Cada um dos controladores citados acima foi desenvolvido em
+uma linguagem de programação diferente, forçando o desenvolvedor
+a trabalhar na mesma linguagem do controlador de forma a 
+opera-lo como forma de interface de programação (API). 
+Cada controlador possui vantagens exclusivas, tendo sido construídos
+com propósitos diferentes. O controlador NOX se destaca pela
+performance, pelo fato de ser construído em C++ e possui
+código compilado. O controlador POX se destaca pela
+facilidade de programação provida pela linguagem Python mas
+possui desempenho inferior devido ao fato do Python ser
+interpretado. 
+
+O controlador escolhido para uso neste trabalho foi 
+o Floodlight. Sendo desenvolvido para ser usado
+principalmente por  administradores de rede, possui uma 
+série de aplicações nativas que permitem o seu controle
+via aplicações externas. Uma dessas aplicações nativas 
+permite a recepção de mensagens via mensagens REST,
+possibilitando ao desenvolvedor manipular sua rede sem
+a necessidade de programar um módulo dedicado. Tal fato
+dificultou o desenvolvimento do trabalho, visto que grande 
+parte da documentação disponível para consulta era voltada
+apenas para os administradores, sem levar em consideração os 
+desenvolvedores de aplicações em Java. O fato
+de ter sido construído em Java pode impactar em seus desempenho
+mas tal impacto é recompensado visto o grande número de 
+recursos disponíveis. Um dos recursos que pode ser citado
+é a interface gráfica usada para visualização da rede que
+no futuro poderá ser adaptada para uso como o projeto 
+RouteFlow. A comunidade de usuários é grande e bastante
+ativa, fato notado pela grande quantidade de postagens no
+fórum oficial do controlador.
+
+Os dois proxies RouteFlow (RFProxy) já existentes durante a 
+criação desse trabalho seguem um mesmo algoritmo, o que 
+facilita muito o entendimento geral. A maior dificuldade no
+desenvolvimento de um novo proxy RouteFlow (RFProxy) são
+as características exclusivas de cada linguagem de programação,
+cabendo ao desenvolvedor as adaptações necessários para 
+implementar o algoritmo. A linguagem Java já possuía uma
+ótima API para comunicação com o banco de dados MongoDB
+e para a manipulação de mensagens no protocolo JSON. Um fato
+que trouxe certa dificuldade no trabalho foi o desenvolvimento
+de uma aplicação com múltiplas threads em Java. 
+
+A Figura \ref{fig:esquematicoProxy} ilustra de forma simples as
+funções básicas bem como a direção das informações tratadas
+pelo proxy RouteFlow (RFProxy). É interessante notar que o 
+proxy só se comunica com com o restante do ambiente através
+do mecanismo de troca mensagens entre processos (IPC) basedo
+no banco de dados centralizado.
+\newline
+\newline
+\newline
+\newline
+
+
+\begin{figure}[h] 
+\centering
+\includegraphics[width=120mm]{esquematico_geral_proxy.png}
+\caption{Esquema Geral do Proxy RouteFlow (RFProxy).}
+\label{fig:esquematicoProxy} 
+\end{figure}
+ 
+
 \section{Descrição Geral da Estrutura do Proxy RouteFlow em Java}
 
 Todos os componentes do proxy RouteFlow em Java foram agrupados em classes. O agrupamento em classes 

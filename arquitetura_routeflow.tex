@@ -37,27 +37,37 @@ e com a execução de um piloto em seu \textit{testbed}.
 
 O RouteFlow é composto basicamente por três módulos principais:
 o cliente RouteFlow (RFClient), o servidor RouteFlow (RFServer) e
-o proxy RouteFlow. A Figura \ref{fig:visaoGeralRouteFlow} mostra
+o proxy RouteFlow. Todos os módulos serão
+explicados com mais detalhes nas seções seguintes. A Figura \ref{fig:visaoGeralRouteFlow} mostra
 de forma simplificada um cenário RouteFlow típico: engines de 
 roteamento em um ambiente virtual geram uma base de 
 informação de encaminhamento baseado nos protocolos 
 de roteamento (OSPF, BGP) e processos ARP. Durante a 
 execução do ambiente virtual, as tabelas de roteamento e 
-tabelas ARP são coletadas pelos módulos RFClient executando
+tabelas ARP são coletadas pelos módulos clientes (RFClient) executando
 nas máquinas virtuais e traduzido em tuplas OpenFlow que
-são enviadas para o RFServer, que faz a adaptação das 
+são enviadas para o servidor (RFServer), que faz a adaptação das 
 informações para o ambiente físico e finalmente instrui o 
-módulo RFProxy, uma aplicação controladora, para configurar
+módulo proxy (RFProxy), uma aplicação controladora, para configurar
 os \textit{switches OpenFlow} no ambiente físico.
 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=160mm]{visaoGeralRouteFlow.png}
+\caption{Visão geral do RouteFlow.}
+\label{fig:visaoGeralRouteFlow} 
+\end{figure}
+
+
 Pacotes de encaminhamento dos protocolos de roteamento 
-e controle de trágico (ARP, BGP, RIP e OSPF) são direcionados
-pelo RFProxy para as interfaces virtuais correspondentes do
+e controle de tráfico (ARP, BGP, RIP e OSPF) são direcionados
+pelo proxy (RFProxy) para as interfaces virtuais correspondentes do
 ambiente virtual. Entre o ambiente virtual e o ambiente existe
-um switch virtual que também é controlado pelo RFProxy,
+um switch virtual que também é controlado pelo proxy (RFProxy),
 permitindo um caminho direto entre os ambientes, reduzindo 
 o tempo das trocas de mensagens e sem a necessidade de passar
-através do RFServer e do RFClient.
+através do servidor (RFServer) e do cliente (RFClient).
 
 Abaixo temos os principais avanços da arquitetura do projeto
 RouteFlow
@@ -73,9 +83,9 @@ torna o código mais claro, facilitando a portabilidade para outras
 linguagens ou o suporte à novas tecnologias. O exemplo mais 
 claro sobre a independência dos módulos é o próprio módulo levado em consideração
 na construção do trabalho de conclusão de curso em questão, o
-RFProxy. 
+proxy (RFProxy). 
 
-O RFProxy faz a troca de mensagens com os outros módulos 
+O proxy (RFProxy) faz a troca de mensagens com os outros módulos 
 através de um sistema de banco de dados, sendo facilmente
 portado para outras linguagens de programação e tecnologias.
 
@@ -170,114 +180,193 @@ foi levada em consideração.
 No núcleo do RouteFlow estão os mapeamentos entre o ambiente
 físico controlado e o ambiente virtual executando as tarefas de
 roteamento. A confiabilidade desses estados de rede é imprescindível 
-para o RFServer e se torna difícil de manter sem a ajuda de 
+para o servidor (RFServer) e se torna difícil de manter sem a ajuda de 
 algum módulo externo. Um banco de dados externo se encarrega
 desse objetivo, tendo sua configuração mais flexível. Estatísticas
-coletadas pelo RFProxy também podem ser armazenadas em 
+coletadas pelo proxy (RFProxy) também podem ser armazenadas em 
 um banco de dados centralizado, baseado em serviços adicionais
 é até possível implementar ferramentas para análise dos dados 
 ou até mesmo visualização.
 
 A escolha de delegar o controle dos estados da rede para um
 banco de dados permite uma melhor tolerância a falhas, replicando
-a base de dados ou até mesmo separando o RFServer em várias
-instâncias. A possibilidade de distribuição do RFServer permite
+a base de dados ou até mesmo separando o servidor (RFServer) em várias
+instâncias. A possibilidade de distribuição do servidor (RFServer) permite
 ao sistema um melhor desempenho, sendo possível distribuí-lo
 em vários pontos de uma rede e assim reduzindo a latência de
 comunicação. Já é levado em consideração o uso de um banco de
 dados distribuído para as próximas atualizações do RouteFlow.
 
+A implementação atual do RouteFlow leva em consideração
+as melhores técnicas e práticas usadas em aplicações executando
+nas nuvens, isso inclui recursos de escalabilidade, banco de 
+dados tolerante à falhas que serve como mecanismo de troca
+de mensagens entre processos (IPC), controle centralizado
+do estado da rede, armazenamento das informações usadas 
+para desenvolvimento de aplicações de roteamento (histograma 
+de tráfico, monitoramento de fluxos e ações administrativas).
+Assim podemos dizer que o banco de dados nos provê uma 
+base com informações da rede (\textit{Network Information
+Base, NIB}) [Koponen et al. 2010] e uma base de conhecimento
+ (\textit{Knowledge Information Base, KIB}) [Saucez et al. 2011].
+
+\section{Esquema de Configuração Flexível}
+
+Nas primeiras versões do RouteFlow, a associação entre máquinas
+virtuais (executando o cliente RouteFlow) e os \textit{switches OpenFlow}
+era feita de forma automática e gerenciada pelo servidor (RFServer) baseado
+no critério de ordem de registração: o cliente de numero um
+era associado ao primeiro switch à ingressar na rede, o de número
+dois ao segundo e assim diante. Essa característica não requeria 
+que o administrador controla-se o registro dos switches na rede mas
+era necessário tomar conta da ordem de ingresso dos switches.
+
+Essa abordagem funcionou bem em ambientes controlados e 
+experimentais mas apresentou problemas em ambientes onde
+os switches não eram controlados diretamente pelo administrador.
+Para resolver este problema e ser base para o suporte ao uso de
+múltiplos controladores, a implementação atual do RouteFlow
+faz uso de um mapeamento 1:1 definido de forma manual pelo 
+administrador da rede.
+É necessário o conhecimento prévio da rede pelo administrador
+para que o mapeamento seja feito de forma correta. Esse mapeamento
+é carregado e armazenado no banco de dados centralizado.
+A Tabela \ref{tab:tipos_associacao} demonstra os possíveis estados que o mapeamento
+pode assumir. A Figura \ref{fig:rfserverAssociacao} ilustra como o RFServer trata os eventos
+da rede.
 
 
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+Formato & Tipo\\
+\hline
+\hline
+$vm_-id,vm_-port,-,-,-,-,-$ & Porta do Cliente Inativa\\
+\hline
+$-,-,-,-,-,dp_-id,dp_-port,ct_-id$ & Porta do Switch Inativa\\
+\hline
+$vm_-id,vm_-port,dp_-id,dp_-port,-,-,ct_-id$ & Associação entre Cliente e Switch\\
+\hline
+$vm_-id,vm_-port,dp_-id,dp_-port,vs_-id,vs_-port,ct_-id$ & Associação entre Cliente e Switch Ativa\\
+\hline
+\end{tabular}
+\caption{Tipos possíveis de associação}
+\label{tab:tipos_associacao}
+\end{table}
 
 
+Sempre que um switch OpenFlow ingressa na rede, o proxy (RFProxy)
+informa ao servidor RouteFlow (RFServer) sobre cada uma das
+portas físicas. Cada uma dessas portas é registrada pelo servidor
+em um dos dois tipos mostrados na Tabela \ref{tab:tipos_associacao}:
+como (i) \textit{Porta de Switch Inativa} ou (ii) \textit{Associação
+entre Cliente e Switch}. Essa associação ocorre quanto 
+não há nenhuma configuração para a porta do switch que
+foi registrada ou a porta cliente configurada para ser associada
+com essa porta do switch ainda não foi registrada. A última 
+opção acontece quando a porta do cliente a ser associada com a
+porta do switch (baseada na configuração prévia do ambiente)
+está pronta e registrada como inativa.
 
+Quando um cliente (RFClient) inicia, o mesmo informa ao servidor RouteFlow (RFServer)
+informações sobre suas interfaces (portas). Essas portas são 
+registradas pelo RFServer em um dos estados mostrados na
+Tabela \ref{tab:tipos_associacao}: como uma porta de cliente
+inativa ou como uma associação entre cliente e switch. A 
+associação é análoga a associação descrita às portas dos
+switches.
 
+Depois da associação, o servidor (RFServer) solicita ao cliente (RFClient) para
+disparar a mensagem que irá confirmar que o switch virtual está
+conectado e apto a se comunicar com o proxy (RFProxy). Quando isso
+acontece, o proxy (RFProxy) é alertado sobre a conexão entre o 
+cliente (RFClient) e seu switch virtual, e envia uma informação ao 
+servidor (RFServer). O servidor (RFServer) decide o que fazer com a informação.
+Tipicamente, o proxy (RFProxy) é intruido a redirecionar todo o tráfego
+das máquinas virtuais para os switches físicos associados e 
+vice-versa. Quando um switch abandona a rede, todas as 
+associações envolvendo as portas do mesmo são removidas,
+deixando inativas as portas do cliente envolvidas na associação.
+Em caso de conexão de um switch, o RouteFlow checa se o 
+mesmo é um novo ingressante ou se é um retornante, podendo
+apenas restaurar as associações configuradas previamente 
+pelo administrador.
 
-
-O RouteFlow armazena a lógica de
-controle dos \textit{switches OpenFlow} na infraestrutura de rede,
-através de uma rede virtual composta por máquinas virtuais, cada uma executando um código
-(engine) de roteamento de domínio público (open source).
-Essas máquinas virtuais podem ser interconectadas
-de maneira a formar uma topologia lógica, espelhando a
-topologia de uma rede física correspondente ou uma topologia
-virtual simplificada. O ambiente virtual é armazenado em um
-servidor externo, ou um conjunto deles, que se comunicam com
-os equipamentos do plano de dados através de um controlador
-\textit{OpenFlow}, que transporta para o plano de encaminhamento as
-decisões tomadas pelos protocolos de roteamento no plano de
-controle (OSPF, BGP, RIP). 
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=160mm]{visaoGeralRouteFlow.png}
-\caption{Visão geral do RouteFlow.}
-\label{fig:visaoGeralRouteFlow} 
+\includegraphics[width=120mm]{rfserverAssociacao.png}
+\caption{Tratamento de Associações do RFServer.}
+\label{fig:rfserverAssociacao} 
 \end{figure}
 
-A Figura \ref{fig:visaoGeralRouteFlow} ilustra uma sub-rede com
-switches programáveis, em que a lógica de roteamento é
-implementada no servidor RouteFlow. O resultado consiste
-numa solução flexível de alto desempenho e comercialmente
-competitiva, a partir da combinação de recursos disponíveis,
-como, por exemplo:
 
-\begin{enumerate}[{a)}] 
-\item switches programáveis de baixo
-custo e software embarcado reduzido (\textit{OpenFlow}); 
-\item pilhas de protocolos de roteamento open source (QUAGGA, 2009; XORP,
-2011); e 
-\item servidor de prateleira de alto poder de
-processamento e, também, de baixo custo. 
-\end{enumerate}
+Uma entrada no arquivo de configuração contem um conjunto 
+dos campos identificados na Tabela \ref{tab:tipos_associacao}:
+\textit{$vm_-id, vm_-port, dp_-id, dp_-port, ct_-id$}. Esses campos
+são suficientes para a associação, os campos remanescentes
+são relacionados à conexão com o switch virtual ($vs_-*$) e serão
+definidos em tempo de execução. O campo \textit{$ct_-id$} identifica
+identifica com qual controlador o switch está conectado. Esse
+mecanismo permite ao RouteFlow trabalhar com múltiplos
+controladores, cada um controlando uma parte da mesma rede.
 
-Cabe ressaltar que, apesar de o controle estar fisicamente
-centralizado, ele continua distribuído logicamente. Dessa
-forma, não é necessária qualquer alteração dos protocolos de
-roteamento existentes. Além disso, a solução pode tornar-se
-mais escalável no futuro, com o uso
-de vários servidores de alto desempenho.
+Considerando que o ambiente virtual pode ser distribuído, é 
+possível executar vários domínios de roteamento com um
+único servidor (RFServer), facilitando o gerenciamento de inúmeras 
+redes roteadas em um único ponto.
 
-\section{Descrições dos Principais Componentes do RouteFlow}
-O RouteFlow é dividido basicamente em três aplicações
-básicas: RFClient, RFServer e RFProxy. Na Figura
+\section{Descrições dos Principais Módulos do RouteFlow}
+Como citado nas seções acima, O RouteFlow é dividido em 
+três módulos básicos: cliente (RFClient), servidor (RFServer)
+ e proxy (RFProxy). Na Figura
 \ref{fig:componentesRouteFlow} temos uma visão geral das
 aplicações:
+
+
+\begin{figure}[h] 
+\centering
+\includegraphics[width=130mm]{componentesRouteFlow.png}
+\caption{Componentes principais do RouteFlow.}
+\label{fig:componentesRouteFlow} 
+\end{figure}
+
 
 \begin{itemize} 
 \item RFClient executa como um programa
 executável em um máquina virtual, detectando
 mudanças na tabela ARP do Linux e na tabela de roteamento.
-As informações de roteamento são enviadas para o
-RFServer quando são atualizadas.
+As informações sobre rotas são enviadas para o
+servidor (RFServer) quando são atualizadas pelas aplicações
+encarregadas do roteamento (QUAGGA). 
+
 \item RFServer é uma aplicação independente que gerencia as
-máquinas virtuais que estão executando o RFClient. 
+máquinas virtuais que estão executando o cliente (RFClient). 
 
 O RFServer mantem o mapeamento entre as instâncias das
-máquinas virtuais executando o RFClient e as interfaces
-correspondentes aos switches e suas respectivas portas. É
-conectado ao RFProxy para instruí-lo como configurar os
+máquinas virtuais executando o cliente (RFClient) e as interfaces
+correspondentes aos \textit{switches} e suas respectivas portas. É
+conectado ao proxy (RFProxy) para instruí-lo como configurar os
 fluxos e também como configurar o Open vSwitch que mantém a
 conectividade de todo o ambiente composto pelas máquinas virtuais.
+É considerado o módulo mais importante e mais complexo
+do projeto RouteFlow.
+
 \item RFProxy é uma aplicação responsável pelas interações
 entre os switches \textit{OpenFlow} (identificados pelos seus
-datapaths) via o protocolo \textit{OpenFlow}. Ele aguarda instruções
-do RFServer e o notifica à respeito de eventos na rede.
+datapaths) via o protocolo \textit{OpenFlow} e os demais
+módulos do ambiente, como o servidor (RFServer) e o conjunto
+de clientes (RFClients). Ele aguarda instruções
+do servidor (RFServer) e o notifica à respeito de todos os eventos da rede.
 Atualmente é executado como um módulo vinculado aos
 controladores \textit{OpenFlow}. 
 
 O RouteFlow tem suporte aos
 controladores NOX e POX, sendo que a proposta do trabalho é
-adicionar suporte ao Floodlight. 
+adicionar suporte ao controlador Floodlight. 
 \end{itemize}
-
-\begin{figure}[h] 
-\centering
-\includegraphics[width=150mm]{componentesRouteFlow.png}
-\caption{Componentes principais do RouteFlow.}
-\label{fig:componentesRouteFlow} 
-\end{figure}
 
 \section{Protocolo RouteFlow}
 
@@ -290,8 +379,8 @@ mensagem-padrão estão: identificação do controlador,
 identificação da máquina virtual, tipo da mensagem,
 comprimento e dados. 
 
-O proxy RouteFlow recebe os comandos do
-servidor RouteFlow através deste protocolo e de acordo com o
+O proxy (RFProxy) recebe os comandos do
+servidor (RFServer) através deste protocolo e de acordo com o
 tipo de comando executa as principais ações, muitas delas
 exigindo a comunicação com os switches físicos. A
 comunicação com os switches físicos é feita via protocolo
