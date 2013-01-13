@@ -346,13 +346,36 @@ NOX e POX. Foi fruto desse trabalho de conclusão de curso
 expandir o suporte do script para a linguagem Java. O script
 é construído em Python e recebe como entrada uma lista com
 a definição de campos e tipos de cada mensagem e retorna
-os arquivos com as respectivas implementações.
+os arquivos com as respectivas implementações. 
+
+A Figura \ref{fig:mensagens}
+ilustra o sentido de cada mensagem, nos dizendo que tipo de mensagem
+é enviada para cada módulo. Vale lembra que as mensagens
+são enviadas ao banco de dados centralizado para atuar no
+mecanismo de troca de mensagens entre processos (IPC).
+\newline
+
+\begin{figure}[h] 
+\centering
+\includegraphics[width=140mm]{mensagens.png}
+\caption{Fluxo das Mensagens.}
+\label{fig:mensagens} 
+\end{figure}
 
 \begin{itemize}
-\item \textit{PortRegister}
-\item \textit{PortConfig}
-\item \textit{DatapathConfig}
-\item \textit{RouteInfo}
+\item \textit{PortRegister:} Mensagem utilizada sempre que um
+novo switch OpenFlow ingressa no ambiente físico. As mensagens 
+servem para informar ao servidor RouteFlow sobre a disponibilidade
+de portas para que as mesmas sejam associadas às interfaces
+das máquinas virtuais no ambiente virtual.
+\item \textit{PortConfig:} Mensagem utilizada solicitação de 
+configuração de alguma porta do ambiente físico pelo servidor
+RouteFlow. Atualmente não é utilizada.
+\item \textit{DatapathConfig:} Mensagem utilizada para
+configuração dos switches via protocolo OpenFlow. A 
+configuração envolve aspectos sobre como tratar certos tipos
+de pacotes baseado em seus protocolos.
+\item \textit{RouteInfo:} Mensagem não utilizada.
 \item \textit{FlowMod:} Mensagem utilizada para 
 solicitação da instalação de regras nos switches 
 OpenFlow. As mensagens FlowMod possuem em seu 
