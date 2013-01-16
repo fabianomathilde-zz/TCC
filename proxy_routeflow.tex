@@ -2,9 +2,9 @@
 
 \section{Introdução aos Proxies RouteFlow (RFProxy)}
 
-Nos capítulo à respeito do projeto RouteFlow foi dado
+Nos capítulos à respeito do projeto RouteFlow foi dado
 uma visão geral de todos os três módulos usados para
-construir o projeto. Esse capitulo se foca principalmente no 
+construir o projeto. Esse capítulo se foca principalmente no 
 módulo proxy, desenvolvido como foco principal do trabalho de
 conclusão de curso.
 
@@ -14,8 +14,8 @@ mensagens no protocolo RouteFlow para o protocolo OpenFlow
 e vice-versa. Todos os eventos do ambiente físico são notificados
 ao servidor na forma de mensagens, sendo as mesmas tratadas 
 e processadas de acordo com cada tipo de evento. Cada evento gera uma 
-ação ao servidor (RFServer), que responde na forma de uma 
-mensagem ao proxy (RFProxy), instruindo-o a tomar certa atitude.
+ação ao servidor RouteFlow, que responde na forma de uma 
+mensagem ao proxy RouteFlow, instruindo-o a tomar certa atitude.
 Dentro dessas atitudes estão a criação das regras nos \textit{
 switches OpenFlow}, fazendo toda a rede física se comportar
 da maneira proposta pelo ambiente virtual e seus algoritmos de
@@ -73,10 +73,10 @@ fórum oficial do controlador e pela disposição dos principais
 desenvolvedores na solução de problemas encontrados ou
 dúvidas que surgiram ao longo do desenvolvimento.
 
-Os dois proxies RouteFlow (RFProxy) já existentes durante a 
+Os dois proxies RouteFlow já existentes durante a 
 criação desse trabalho seguem um mesmo algoritmo, o que 
 facilita muito o entendimento geral. A maior dificuldade no
-desenvolvimento de um novo proxy RouteFlow (RFProxy) são
+desenvolvimento de um novo proxy RouteFlow são
 as características exclusivas de cada linguagem de programação,
 cabendo ao desenvolvedor as adaptações necessários para 
 implementar o algoritmo sem grandes alterações
@@ -88,8 +88,8 @@ de uma aplicação com múltiplas threads em Java.
 
 A Figura \ref{fig:esquematicoProxy} ilustra de forma simples as
 funções básicas bem como a direção das informações tratadas
-pelo proxy RouteFlow (RFProxy). É interessante notar que o 
-proxy só se comunica com o servidor RouteFlow (RFServer) através
+pelo proxy RouteFlow. É interessante notar que o 
+proxy só se comunica com o servidor RouteFlow através
 do mecanismo de troca mensagens entre processos (IPC) basedo
 no banco de dados centralizado.
 \newline
@@ -335,6 +335,7 @@ associação com a máquina virtual do ambiente virtual.}
 Esse é o algoritmo básico do proxy RouteFlow. Todos os outros 
 proxies implementados anteriormente seguem essa mesma
 arquitetura.
+
 \section{Descrição das Mensagens Traduzidas pelo Proxy RouteFlow}
 
 Todas as mensagens mostradas na lista abaixo são representadas
