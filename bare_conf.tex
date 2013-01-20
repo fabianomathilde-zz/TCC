@@ -20,14 +20,14 @@
 \orientador[Orientador]{Prof. Dr. Cesar Augusto Cavalheiro Marcondes}
 \coorientador[Coorientador]{Dr. Christian Esteve Rothenberg}
 \areaconcentracao{Sistemas Distribuídos e Redes}
-\data{Dezembro/2012}
+\data{Janeiro/2013}
 
 
 \begin{document} 
 
 \capa
 \folhaderosto
-\dataaprovacao{09}{Dezembro}{2012}
+\dataaprovacao{29}{Janeiro}{2013}
 \begin{folhadeaprovacao}
 %\examinador{Prof. Dr.Hermes Senger }{DC - UFSCar}
 %\examinador{Prof. Dr. Magnos Martinello }{UFES}
@@ -47,7 +47,7 @@ Ainda a ser feito.
 \end{abstract}
 
 \listoffigures
-%\listoftables
+\listoftables
 
 %% defina aqui o seu glossario
 \acronym{ISP}{\textit{Internet Service Provider}}
@@ -63,62 +63,11 @@ Ainda a ser feito.
 \acronym{BGP}{\textit{Border Gateway Protocol}}
 \acronym{RIP}{\textit{Routing Information Protocol}}
 \acronym{JSON}{\textit{JavaScript Object Notation}}
+\acronym{API}{\textit{Application Programming Interface}}
 \listofacronyms
 
 %% sumario
 \tableofcontents
-
-%% aqui comeca o texto da monografia
-%% voce pode dividir o conteudo em varios arquivos.
-%% por exemplo, intro.tex, fundamentacao.tex, desenvolvimento.tex, conclusao.tex.
-%% dai, vc inclui aqui assim: \input{intro.tex} e assim por diante.
-
-
-%\documentclass[10pt, conference, compsocconf]{IEEEtran}
-
-% correct bad hyphenation here
-%\hyphenation{op-tical net-works semi-conduc-tor}
-%\usepackage[T1]{fontenc}
-%\usepackage[portuguese]{babel}
-%\usepackage[utf8]{inputenc}
-%\usepackage[pdftex]{graphicx}
-%\usepackage{ifpdf}
-%\usepackage{cite}
-%\usepackage{subfig}
-%\usepackage{algorithm2e}
-
-%\begin{document}
-% paper title
-% can use linebreaks \\ within to get better formatting as desired
-%\title{Load split within a flow}
-
-% author names and affiliations
-% use a multiple column layout for up to two different
-% affiliations
-
-%\author{\IEEEauthorblockN{Jorge Henrique de Barros Assumpcao}
-%\IEEEauthorblockA{Universidade Federal de São Carlos (UFSCAR)\\
-%Centro de Pesquisa e Desenvolvimento(CPqD)\\
-%Campinas, Brasil\\
-%Email: jbarros@cpqd.com.br}
-%\IEEEauthorblockN{Cesar Augusto Cavalheiro Marcondes}
-%\IEEEauthorblockA{Universidade Federal de São Carlos (UFSCAR)\\
-%São Carlos, Brasil\\
-%Email: marcondes@dc.ufscar.br}
-%}
-
-% make the title area
-%\maketitle
-
-%\begin{abstract}
-%The abstract goes here. DO NOT USE SPECIAL CHARACTERS, SYMBOLS, OR MATH IN YOUR TITLE OR ABSTRACT.
-%\end{abstract}
-
-%\begin{IEEEkeywords}
-%component; formatting; style; styling;
-%\end{IEEEkeywords}
-
-%\IEEEpeerreviewmaketitle
 
 \input{introducao}
 \input{redes_definidas_por_software}
@@ -127,7 +76,8 @@ Ainda a ser feito.
 \input{resultados}
 \input{conclusao}
 \input{agradecimentos}
-\input{referencias}
-%\bibliographystyle{abnt}
-%\bibliography{bare_conf}
+\bibliographystyle{abnt}
+\nocite{*}
+\bibliography{bare_conf}
+
 \end{document}
