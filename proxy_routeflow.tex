@@ -230,8 +230,11 @@ controlador.}
 \newline
 
 \noindent
-\tcc*[h]{Gerador de mensagens RouteFlow. Será explicado com
-mais detalhes.}
+\tcc*[h]{Gerador de mensagens RouteFlow. Cada mensagem RouteFlow
+tem seu tipo e seus próprios parâmetros. Todas as mensagens
+são representadas na forma de classes, a função em questão
+basicamente retorna a classe representante da função de acordo
+com o seu tipo.}
 \newline
 \textit{factory} $\leftarrow$ \textbf{RFProtocolFactory};
 \newline
@@ -335,6 +338,152 @@ associação com a máquina virtual do ambiente virtual.}
 Esse é o algoritmo básico do proxy RouteFlow. Todos os outros 
 proxies implementados anteriormente seguem essa mesma
 arquitetura.
+
+Abaixo temos um pseudo algoritmo do mecanismo de comunicação
+entre processos usado para funcionamento do proxy, no algoritmo
+anterior a classe é chamada de \textbf{MongoIPCMessageService}:
+\newline
+
+\noindent
+\tcc*[h]{Definição dos parâmetros de acesso ao
+ banco de dados como nome da coleção de dados, nome
+do banco de dados e endereço do banco de dados.}
+\newline
+
+\noindent
+\tcc*[h]{Função usada para criação da thread não bloqueante
+que executará a função ListenWorker. A função ListenWorker
+será mostrada logo abaixo.}
+\newline
+\textit{\textbf{listen() \{}}
+\newline
+\tcc*[h]{Cria a nova thread, associa a função listenWorker e
+inicia a sua execução.}
+\newline
+\textit{\textbf{\};}}
+\newline
+
+\noindent
+\tcc*[h]{Função usada para checagem constante do banco
+de dados à procura de alguma mensagem destinada
+ao processo registrado. O processo se registra através da
+criação de um canal de comunicação. O canal de comunicação
+nada mais é que uma coleção de dados no banco de dados.}
+\newline
+\textit{\textbf{listenWorker() \{}}
+\newline
+\newline
+\tcc*[h]{Define os parâmetros de busca. Os principais foram
+definidos no início do algoritmo. É definido o nome da coleção
+que será checada de tempos em tempos em busca de novas
+mensagens.}
+\newline
+\newline
+\indent
+\textit{\textbf{enquanto(verdadeiro) \{}}
+\newline
+\indent
+\indent
+\textit{\textbf{se(mensagem não lida) \{}}
+\newline
+\indent
+\indent
+\indent
+\tcc*[h]{Extrai os dados importantes e altera o parâmetro lido
+do banco de dados para verdadeiro. Os dados são passados
+para a função processor, mostrada no primeiro algoritmo.}
+\newline
+\indent
+\indent
+\textit{\textbf{\};}}
+\newline
+\indent
+\indent
+\textit{\textbf{senao \{}}
+\newline
+\indent
+\indent
+\indent
+durma
+\newline
+\indent
+\indent
+\textit{\textbf{\};}}
+\newline
+\indent
+\textit{\textbf{\};}}
+\newline
+\textit{\textbf{\};}}
+\newline
+
+\noindent
+\tcc*[h]{Função usada para envio de dados ao banco de dados.
+O termo envio significa inserir um novo conjunto de dados
+coleção. Serve basicamente para envio de mensagens à outros
+processos.}
+\newline
+\textit{\textbf{send() \{}}
+\newline
+\textit{\textbf{\};}}
+\newline
+
+\noindent
+\tcc*[h]{Função usada para criar um novo canal de comunicação.
+Usada na primeira vez que o mecanismo de comunicação é
+executado.}
+\newline
+\textit{\textbf{createChannel() \{}}
+\newline
+\textit{\textbf{\};}}
+\newline
+
+Este é basicamente a estrutura básica do algoritmo usado
+para criação do mecanismo de comunicação entre processos.
+A função listenWorker, sempre que nota o recebimento de
+uma nova mensagem, encapsula os dados e transfere a função 
+processor. A função processor, devido a orientação à objetos,
+é sobrecarregada na definição do código do proxy. Assim é usada
+para tomar as ações necessárias ao funcionamento do sistema.
+Abaixo temos um pseudo código que será mais explicado a seguir:
+\newline
+\newline
+\noindent
+\tcc*[h]{Função usada para tratamento das mensagens
+recebidas através do mecanismo de comunicação entre 
+processos.}
+\newline
+\textit{\textbf{processor(dados) \{}}
+\newline
+\newline
+\indent
+\tcc*[h]{O parâmetro dados constitui basicamente do tipo
+de mensagem e seus respectivos campos. Para cada tipo
+de mensagem é necessário tomar uma ação.}
+\newline
+\indent
+\textit{\textbf{caso(tipo) \{}}
+\newline
+\indent
+\indent
+tipo 1: \tcc*[h]{ação 1}
+\newline
+\indent
+\indent
+tipo 2: \tcc*[h]{ação 2}
+\newline
+\indent
+\indent
+...
+\newline
+\indent
+\indent
+tipo N: \tcc*[h]{ação N}
+\newline
+\indent
+\textit{\textbf{\};}}
+\newline
+\textit{\textbf{\};}}
+\newline
 
 \section{Descrição das Mensagens Traduzidas pelo Proxy RouteFlow}
 
