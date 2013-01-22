@@ -50,7 +50,7 @@ tiveram pouca aceitação pela necessidade de alteração dos
 elementos de rede para permitir que se tornassem programáveis. As iniciativas 
 mais recentes, como o PlanetLab e o GENI, apostam na adoção
 de recursos de virtualização para facilitar a transição para
-novas tecnologias. Apenas de serem consideradas de
+novas tecnologias. Apesar de serem consideradas de
 grande potencial ao longo prazo, tais iniciativas ainda
 enfrentam desafios em questões como garantir o desempenho
 exigido pelas aplicações largamente utilizadas hoje
@@ -69,7 +69,7 @@ desempenho, mas com uma possibilidade de maior controle
 por parte dos administradores de rede. Essa proposta se inspira 
 em uma tecnologia já largamente adotada, o chaveamento
 (encaminhamento) baseado em rótulos programáveis, 
-popularizado pelo MLPS \textit{(Multi-protocol Label
+popularizado pelo MPLS \textit{(Multi-Protocol Label
  Switching)} [Davie e Farrel 2008, Kempf et al. 2001].
 
 Com o MPLS, o controle fino sobre o tráfego de rede se torna 
@@ -127,7 +127,7 @@ propostas de arquiteturas e protocolos de rede (incluindo as
 abordagens \textit{clean slate}) sobre equipamentos
 comerciais. É definido como uma padrão aberto para Redes
 Definidas por Software que tem como principal objetivo que 
-se utilize equipamentos de redes comerciais para pesquisa e 
+se utilize equipamentos comerciais para pesquisa e 
 experimentação de novos protocolos de rede, em paralelo
 com a operação normal das redes. Isso é conseguido com a 
 definição de uma interface de programação que permite 
@@ -140,7 +140,7 @@ laboratórios de pesquisa, para realizar experimentos em redes
 "de produção". Isso facilita muito a transferência dos resultados
 de pesquisa para a industria. 
 
-\section{Descrição Geral Protocolo \textit{OpenFlow}}
+\section{Descrição Geral do Protocolo \textit{OpenFlow}}
 
 Uma característica básica da arquitetura do padrão \textit{OpenFlow} 
 é a separação clara entre os planos de dados e controle em
@@ -157,7 +157,7 @@ descartá-los, ou (\textit{iv}) encaminhá-lo para inspeção
 por um controlador da rede. Em dispositivos dedicados, o plano
 de dados pode ser implementado em hardware utilizando os
 elementos comuns aos roteadores e \textit{switches} atuais.
-Já o módulo de controle (ou controladoor) pode ser um 
+Já o módulo de controle (ou controlador) pode ser um 
 módulo de software implementado de forma independente em
 algum ponto da rede.
 
@@ -206,7 +206,7 @@ ser representados como zero, um ou "não importa"
 (\textit{don't care}), indicando que ambos os valores são
 aceitáveis naquela posição. Como o padrão é programado
 a partir do plano de controle, fluxos podem ser definidos da 
-forma escolhida pelo controlador. A figura \ref{fig:fluxoopenflow}
+forma escolhida pelo controlador. A Figura \ref{fig:fluxoopenflow}
 apresenta uma visão geral de uma entrada da tabela \textit{OpenFlow}.
 Cada pacote que chega a um comutador \textit{OpenFlow} é comparado
 com cada entrada dessa tabela; caso um casamento seja encontrado,
@@ -239,7 +239,7 @@ na camada de enlace utilizando redes virtuais (VLANs), respectivamente.
 
 \begin{figure}[h] \centering
 \includegraphics[width=160mm]{exemploSwitchOpenFlow.png} 
-\caption{Exemplos de uso de um \textit{Switch OpenFlow}.} 
+\caption{Exemplos de uso de um \textit{switch OpenFlow}.} 
 \label{fig:exemploSwitchOpenFlow} 
 \end{figure}
 
@@ -269,6 +269,6 @@ servidor comum.
 
 \begin{figure}[h] \centering
 \includegraphics[width=130mm]{openflow.png} 
-\caption{Rede com o protocolo \textit{OpenFlow} Habilitado.} 
+\caption{Rede com o protocolo \textit{OpenFlow} habilitado.} 
 \label{fig:openflow} 
 \end{figure}

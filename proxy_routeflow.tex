@@ -90,7 +90,7 @@ A Figura \ref{fig:esquematicoProxy} ilustra de forma simples as
 funções básicas bem como a direção das informações tratadas
 pelo proxy RouteFlow. É interessante notar que o 
 proxy só se comunica com o servidor RouteFlow através
-do mecanismo de troca mensagens entre processos (IPC) basedo
+do mecanismo de troca mensagens entre processos (IPC) baseado
 no banco de dados centralizado.
 \newline
 \newline
@@ -121,7 +121,7 @@ suas respectivas descrições:
 \item \textit{MongoIPCMessageService:} Responsável pela
  comunicação entre o servidor RouteFlow e o proxy 
 RouteFlow. A arquitetura básica do projeto RouteFlow 
-faz uso de um banco de dados não SQL para troca de 
+faz uso de um banco de dados Não SQL para troca de 
 mensagens entre seus componentes, sendo que o banco 
 de dados escolhido foi o MongoDB. 
 
@@ -165,7 +165,7 @@ inserção de novas mensagens no ambiente evitando a reprogramação
 de outras classes;
 \item \textit{RFProtocolProcessor:} Responsável pelo processamento 
 de mensagens vindas do servidor 
-RouteFlow. Este componente define o como será tratada cada mensagem 
+RouteFlow. Este componente define como será tratada cada mensagem 
 vinda do servidor RouteFlow. As 
 mensagens são lidas através do IPC e repassadas para tratamento.
 \item \textit{AssociationTable:} Tabela mantida pelo proxy para armazenar 
@@ -296,7 +296,7 @@ Burocracia exigida pelo controlador.}
 
 \noindent
 \tcc*[h]{Função usada para definir que tipo de mensagens 
-OpenFlow serão tratadas pelo algoritmo do proxy e por especificamente
+OpenFlow serão tratadas pelo algoritmo do proxy e especificamente
 por quais funções. O proxy habilita a função \textit{processPacketInMessage}
 a tratar as mensagens de entrada OpenFlow.}
 \newline
@@ -419,7 +419,7 @@ durma
 \noindent
 \tcc*[h]{Função usada para envio de dados ao banco de dados.
 O termo envio significa inserir um novo conjunto de dados
-coleção. Serve basicamente para envio de mensagens à outros
+na coleção. Serve basicamente para envio de mensagens à outros
 processos.}
 \newline
 \textit{\textbf{send() \{}}
@@ -485,6 +485,11 @@ tipo N: \tcc*[h]{ação N}
 \textit{\textbf{\};}}
 \newline
 
+Esse é basicamente o algoritmo usado em todos os proxies RouteFlow.
+As principais diferenças são relacionadas às linguagens de programação
+ e ao controlador usado como interface com o protocolo
+\textit{OpenFlow}.
+
 \section{Descrição das Mensagens Traduzidas pelo Proxy RouteFlow}
 
 Todas as mensagens mostradas na lista abaixo são representadas
@@ -508,54 +513,54 @@ mecanismo de troca de mensagens entre processos (IPC).
 \begin{figure}[h] 
 \centering
 \includegraphics[width=140mm]{mensagens.png}
-\caption{Fluxo das Mensagens.}
+\caption{Fluxo das mensagens.}
 \label{fig:mensagens} 
 \end{figure}
 
 \begin{itemize}
-\item \textit{PortRegister:} Mensagem utilizada sempre que um
-novo switch OpenFlow ingressa no ambiente físico. As mensagens 
+\item \textit{PortRegister:} mensagem utilizada sempre que um
+novo \textit{switch} OpenFlow ingressa no ambiente físico. As mensagens 
 servem para informar ao servidor RouteFlow sobre a disponibilidade
 de portas para que as mesmas sejam associadas às interfaces
 das máquinas virtuais no ambiente virtual.
-\item \textit{PortConfig:} Mensagem utilizada solicitação de 
+\item \textit{PortConfig:} mensagem utilizada solicitação de 
 configuração de alguma porta do ambiente físico pelo servidor
 RouteFlow. Atualmente não é utilizada.
-\item \textit{DatapathConfig:} Mensagem utilizada para
-configuração dos switches via protocolo OpenFlow. A 
+\item \textit{DatapathConfig:} mensagem utilizada para
+configuração dos \textit{switches} via protocolo OpenFlow. A 
 configuração envolve aspectos sobre como tratar certos tipos
 de pacotes baseado em seus protocolos.
-\item \textit{RouteInfo:} Mensagem não utilizada.
-\item \textit{FlowMod:} Mensagem utilizada para 
+\item \textit{RouteInfo:} mensagem não utilizada.
+\item \textit{FlowMod:} mensagem utilizada para 
 solicitação da instalação de regras nos switches 
 OpenFlow. As mensagens FlowMod possuem em seu 
 corpo um conjunto de parâmetros que define uma nova regra 
-a ser aplicada à um switch OpenFlow. Cabe ao proxy 
-criar a regra e envia-la corretamente ao switch. 
+a ser aplicada à um \textit{switch} OpenFlow. Cabe ao proxy 
+criar a regra e envia-la corretamente ao \textit{switch}. 
 Para envio das regras é necessário a manipulação do 
 protocolo OpenFlow. O Floodlight fornece uma série de 
 funções para esse proposito, sendo usado como uma 
-API de comunicação entre os switches OpenFlow e o 
+API de comunicação entre os \textit{switches} OpenFlow e o 
 proxy.
-\item \textit{DatapathPortRegister:} Mensagem utilizada 
-para registrar as portas dos switches OpenFlow 
+\item \textit{DatapathPortRegister:} mensagem utilizada 
+para registrar as portas dos \textit{switches} OpenFlow 
 no servidor RouteFlow. Esse registro é feito para que cada 
 porta seja associada à uma porta da máquina 
 virtual do ambiente virtual.
-\item \textit{DatapathDown:} Mensagem utilizada para que 
+\item \textit{DatapathDown:} mensagem utilizada para que 
 o proxy informe ao servidor RouteFlow sobre a 
-desconexão de um switch OpenFlow. O Floodlight, no papel 
+desconexão de um \textit{switch} OpenFlow. O Floodlight, no papel 
 de controlador OpenFlow, mantem um conjunto de 
-informações à respeito dos switches OpenFlow ativos, 
+informações à respeito dos \textit{switches} OpenFlow ativos, 
 podendo detectar quedas nas conexões dos mesmos. O 
 servidor RouteFlow necessita ter esse tipo de informação para 
 possíveis alterações nas regras dos 
-switches OpenFlow.
-\item \textit{VirtualPlaneMap:} Mensagem utilizada para que 
-o proxy associa cada porta do switch 
+\textit{switches} OpenFlow.
+\item \textit{VirtualPlaneMap:} mensagem utilizada para que 
+o proxy associa cada porta do \textit{switch} 
 OpenFlow à uma porta de uma máquina virtual no ambiente 
 virtual.
-\item \textit{DataPlaneMap:} Mensagem utilizada para que o 
+\item \textit{DataPlaneMap:} mensagem utilizada para que o 
 servidor RouteFlow informe ao proxy à 
 respeito de uma associação de porta bem sucedida. O proxy 
 mantém uma tabela de associação entre portas 
