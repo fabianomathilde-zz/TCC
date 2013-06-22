@@ -1,7 +1,7 @@
 \chapter{Redes Definidas por Software}
 
 \section{Definição Geral} As Redes Definidas
-por Software (Software Defined Networks, ou SDN) constituem
+por Software (\textit{Software Defined Networks}, ou \textit{SDN}) constituem
 um novo paradigma para o desenvolvimento de pesquisas em
 redes de computadores que vem ganhando a atenção de grande
 parte da comunidade acadêmica e da industria da área de
@@ -14,7 +14,7 @@ alguma forma passa por uma ou mais redes de computadores.
 
 Mas tamanho sucesso trouxe consigo um problema para a comunidade
 de pesquisa. Como grande parte da sociedade depende hoje da
-internet em suas atividades diárias e as tecnologias de rede
+Internet em suas atividades diárias e as tecnologias de rede
 se tornaram de fácil acesso, a estabilidade se tornou uma
 característica fundamental das redes de computadores. Isso
 significa que pesquisas com novas tecnologias e protocolos
@@ -138,7 +138,7 @@ rede comerciais, que normalmente possuem maior poder
 de processamento que os comutadores utilizados em 
 laboratórios de pesquisa, para realizar experimentos em redes
 "de produção". Isso facilita muito a transferência dos resultados
-de pesquisa para a industria. 
+de pesquisa para a indústria. 
 
 \section{Descrição Geral do Protocolo \textit{OpenFlow}}
 
@@ -151,7 +151,7 @@ a cada entrada da tabela de encaminhamento do comutador
 de pacotes (podendo ser um \textit{switch}, um roteador 
 ou até mesmo um ponto de acesso sem fio).
 Essas regras, definidas pelo padrão, incluem (\textit{i}) 
-encaminhar o pacote para uma porta especifica do dispositivo,
+encaminhar o pacote para uma porta específica do dispositivo,
 (\textit{ii}) alterar parte de seus cabeçalhos, (\textit{iii}) 
 descartá-los, ou (\textit{iv}) encaminhá-lo para inspeção 
 por um controlador da rede. Em dispositivos dedicados, o plano
@@ -200,8 +200,8 @@ conjunto de ações forma uma entrada da tabela de fluxos
 
 Em um \textit{switch} \textit{OpenFlow}, cada entrada na tabela de 
 fluxos pode ser implementada como um padrão de bits 
-representado em uma memória TCAM (Ternary Content-
-Addressable Memory). Nesse tipo de memória, bits podem
+representado em uma memória TCAM (\textit{Ternary Content-
+Addressable Memory}). Nesse tipo de memória, bits podem
 ser representados como zero, um ou "não importa" 
 (\textit{don't care}), indicando que ambos os valores são
 aceitáveis naquela posição. Como o padrão é programado
@@ -231,7 +231,7 @@ Esse pequeno conjunto de regras cria diversas possibilidades,
 pois muitas das funcionalidades que são implementadas 
 separadamente podem ser agrupadas em um único controlador
 \textit{OpenFlow}, utilizando um pequeno conjunto de regras. Alguns 
-exemplos das possibilidades são apresentadas na Figura \ref{fig:exemploSwitchOpenFlow}.
+exemplos das possibilidades são apresentados na Figura \ref{fig:exemploSwitchOpenFlow}.
 As entradas representam o uso do \textit{switch} \textit{OpenFlow}
 para realizar encaminhamento de pacotes na camada de enlace,
 implementar um firewall e realizar encaminhamento de pacotes 
@@ -244,7 +244,7 @@ na camada de enlace utilizando redes virtuais (VLANs), respectivamente.
 \end{figure}
 
 Apesar de possuir um conjunto pequeno de ações simples, 
-alguns descrevem o \textit{OpenFlow} como uma analogia ao conjunto 
+alguns pesquisadores descrevem o \textit{OpenFlow} como uma analogia ao conjunto 
 de instruções de um microprocessador x86 que, apesar de 
 pequeno e simples, provê uma vasta gama de possibilidades 
 para o desenvolvimento de aplicações. O \textit{OpenFlow} cria 
@@ -264,7 +264,7 @@ comutadores convencionais, roteadores ou até mesmo pontos
 de acesso sem fio. Podemos ver o elemento externo, chamado
 de controlador, tomando contas das regras e ações instaladas
 no hardware de rede. O controlador pode ser executado em 
-qualquer equipamento com suporte à redes, como um 
+qualquer equipamento com suporte a redes, como um 
 servidor comum.
 
 \begin{figure}[h] \centering
