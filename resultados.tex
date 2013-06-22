@@ -5,7 +5,7 @@
 Como principal resultado desse trabalho de conclusão de 
 curso pode ser citado o suporte ao controlador Floodlight 
 pelo Projeto RouteFlow. O Floodlight possui uma grande
-comunidade de pesquisa e desenvolvimento sendo 
+comunidade de pesquisa e desenvolvimento, sendo 
 amplamente utilizado em redes de larga escala. Agora será
 possível aos desenvolvedores do Floodlight executarem 
 experimentos usando o ambiente provido pelo Projeto
@@ -18,18 +18,18 @@ Nas seções seguintes serão mostrados testes de desempenho
 
 Todos os testes dessa seção foram feitos em um ambiente 
 virtual com as seguintes configurações: computador com
-processador Intel Core i7 2630QM e 6GB de memória Ram 
-DDR3, a ferramenta de virtualização escolhida foi o VMware
+processador Intel Core i7 2630QM e 6GB de memória \textit{RAM 
+DDR3}. A ferramenta de virtualização escolhida foi o VMware
  Player executando uma máquina virtual com quatro núcleos 
 e 1GB de memória Ram com o Ubuntu 11.04. Os testes 
 mostrados abaixo foram executados para
 todos os proxies do Projeto RouteFlow para que a 
 virtualização tivesse o mesmo impacto sobre eles.
 
-Para realização dos testes foi usado a ferramenta Cbench.
-Um software especifico para testes de desempenho com 
+Para realização dos testes foi usada a ferramenta Cbench,
+um software específico para testes de desempenho com 
 controladores \textit{OpenFlow}. O programa basicamente
-testa os controladores gerando eventos de entrada de 
+testa os controladores, gerando eventos de entrada de 
 pacotes para simulação de novos fluxos. O programa emula
  um conjunto de \textit{switches} que se conectam no 
 controlador, enviam pacotes de entrada (\textit{packet-in})
@@ -42,7 +42,7 @@ testando na verdade o desempenho do proxy propriamente
 dito. As legendas das figuras e citações abaixo fazem
 referência ao controlador que serviu de interface de programação
 ao proxy, ou seja, ao mencionarmos os controladores NOX,
-POX ou Floodlight estaremos na verdade mencionando
+POX ou Floodlight estamos na verdade mencionando
 o proxy ao qual o controlador serviu de interface. 
 
 A Figura \ref{fig:latencia1sw} mostra um teste com apenas
@@ -63,9 +63,9 @@ parecido com o do NOX em uma grande parcela da distribuição.
 A Figura \ref{fig:latencia4sw} foi obtida em um ambiente com
 quatro \textit{switches} \textit{OpenFlow} conectados. O
 ambiente RouteFlow tinha quatro máquinas virtuais executando
-os algoritmos de roteamento, uma para cada \textit{switch OpenFlow},
-isso pode ter afetado seriamente o desempenho mas para
-o âmbito do trabalho de conclusão de curso estaremos 
+os algoritmos de roteamento, uma para cada \textit{switch OpenFlow}.
+Isso pode ter afetado seriamente o desempenho mas, para
+o âmbito do trabalho de conclusão de curso, estaremos 
 testando apenas o desempenho de um proxy em relação ao
 outro, sem levar em consideração o real desempenho de cada um
 deles. Para termos dados reais de desempenho seria necessário
@@ -81,7 +81,7 @@ NOX em uma grande parcela da distribuição.
 \label{fig:latencia4sw} 
 \end{figure}
 
-Os próximos testes são uma distribuição cumulativa do
+Os próximos testes tratam de uma distribuição cumulativa do
 desempenho do controlador em termos criação de regras por
 segundo. O ambiente é o mesmo dos testes anteriores.
 
@@ -103,7 +103,7 @@ desempenho do Floodlight.
 A Figura \ref{fig:desempenho4sw} foi obtida em um ambiente
 com quatro \textit{switches OpenFlow}. Novamente podemos
 ver que o Floodlight teve desempenho parecido com o dos
-outros proxies chegando a ser mais rápido que o NOX em 
+outros proxies, chegando a ser mais rápido que o NOX em 
 alguns momentos.
 
 

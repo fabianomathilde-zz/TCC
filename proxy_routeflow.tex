@@ -2,8 +2,8 @@
 
 \section{Introdução aos Proxies RouteFlow (RFProxy)}
 
-Nos capítulos à respeito do projeto RouteFlow foi dado
-uma visão geral de todos os três módulos usados para
+Nos capítulos a respeito do projeto RouteFlow foi dada
+uma visão geral dos três módulos usados para
 construir o projeto. Esse capítulo se foca principalmente no 
 módulo proxy, desenvolvido como foco principal do trabalho de
 conclusão de curso.
@@ -22,18 +22,18 @@ da maneira proposta pelo ambiente virtual e seus algoritmos de
 roteamento.
 
 As mensagens do protocolo RouteFlow, como já citado nos
-capítulos anteriores, vem via um mecanismo de troca de mensagens
+capítulos anteriores, vêm via um mecanismo de troca de mensagens
 entre processos (IPC) implementado através do banco de dados
 centralizado. Tal característica força o desenvolvedor a escolher
 as linguagens de programação com suporte à manipulação do
-banco de dados usado pelo projeto RouteFlow, que no caso
+banco de dados usado pelo projeto RouteFlow para criação do proxy, que no caso
 é o MongoDB.
 
 As mensagens do protocolo \textit{OpenFlow} são advindas do ambiente
 físico e necessitam de algum mecanismo de captura e processamento.
 Tal mecanismo é provido pelos softwares de controle \textit{
 OpenFlow}. Dentre os diversos disponíveis, os mais famosos
-são o NOX, o POX e o Floodlight. Todos os controladores
+são NOX, POX e Floodlight. Todos os controladores
 \textit{OpenFlow} são operados apenas como 
 interfaces de programação (APIs), provendo todas as funções de captura
 de eventos e criação de mensagens no protocolo \textit{OpenFlow}.
@@ -41,7 +41,7 @@ de eventos e criação de mensagens no protocolo \textit{OpenFlow}.
 Cada um dos controladores citados acima foi desenvolvido em
 uma linguagem de programação diferente, forçando o desenvolvedor
 a trabalhar na mesma linguagem do controlador de forma a 
-opera-lo como forma de interface de programação (API). 
+operá-lo como forma de interface de programação (API). 
 Cada controlador possui vantagens exclusivas, tendo sido construídos
 com propósitos diferentes. O controlador NOX se destaca pela
 performance, pelo fato de ser construído em C++ e possuir
@@ -106,7 +106,7 @@ no banco de dados centralizado.
 \end{figure}
  
 
-O próximo capitulo irá detalhas as funções internas e principais
+O próximo capitulo detalha as funções internas e principais
 estruturas do proxy RouteFlow.
 
 \section{Descrição Geral da Estrutura do Proxy RouteFlow em Java}
@@ -121,12 +121,12 @@ suas respectivas descrições:
 \item \textit{MongoIPCMessageService:} Responsável pela
  comunicação entre o servidor RouteFlow e o proxy 
 RouteFlow. A arquitetura básica do projeto RouteFlow 
-faz uso de um banco de dados Não SQL para troca de 
+faz uso de um banco de dados \textit{No SQL} para troca de 
 mensagens entre seus componentes, sendo que o banco 
 de dados escolhido foi o MongoDB. 
 
 O MongoDB possui 
-alto desempenho sendo totalmente escrito em C++, outro
+alto desempenho sendo totalmente escrito em C++. Outro
  aspecto importante é o fato de não ser SQL, o 
 que facilita a sua integração com as  principais linguagens
  de programação. 
@@ -151,7 +151,7 @@ são colocadas na tabela pelo servidor RouteFlow
 possuem um campo que indica se a mesma já foi tratada e em caso 
 negativo cabe ao proxy tomar a ação e 
 atualizar o campo da mensagem. Para tratamento das mensagens é 
-gerado uma thread em looping infinito 
+gerada uma thread em looping infinito 
 cujo único proposito de existência é o tratamento de novas mensagens. 
 Essa característica pretende ser melhorada nas próximas versões 
 do RouteFlow;
@@ -159,7 +159,7 @@ do RouteFlow;
 mensagens do protocolo RouteFlow. Cada 
 tipo de mensagem RouteFlow é representada por um código e 
 por uma respectiva classe. É papel do 
-RFProtocolFactory retornar os objetos de mensagens à partir de 
+RFProtocolFactory retornar os objetos de mensagens a partir de 
 seu código. Esta estrutura facilita a 
 inserção de novas mensagens no ambiente evitando a reprogramação 
 de outras classes;
@@ -200,8 +200,8 @@ No Algoritmo abaixo temos uma visão geral da ideia usada para
 construção do proxy, lembrando que a orientação a objetos
 da linguagem Java força o código executável a ser construído
 no formato de classe. Para deixar o código mais limpo, todas
-as características especificas da linguagem Java foram omitidas,
-deixando o código no formato de pseudo algoritmo.
+as características específicas da linguagem Java foram omitidas,
+deixando o código no formato de algoritmo.
 \newline
 
 %\begin{algorithmic}
@@ -232,7 +232,7 @@ controlador.}
 \noindent
 \tcc*[h]{Gerador de mensagens RouteFlow. Cada mensagem RouteFlow
 tem seu tipo e seus próprios parâmetros. Todas as mensagens
-são representadas na forma de classes, a função em questão
+são representadas na forma de classes; a função em questão
 basicamente retorna a classe representante da função de acordo
 com o seu tipo.}
 \newline
@@ -240,7 +240,7 @@ com o seu tipo.}
 \newline
 
 \noindent
-\tcc*[h]{Processador de mensagens RouteFlow. Sera explicado
+\tcc*[h]{Processador de mensagens RouteFlow. Será explicado
 com mais detalhes.}
 \newline
 \textit{processor} $\leftarrow$ \textbf{RFProtocolProcessor};
@@ -295,7 +295,7 @@ Burocracia exigida pelo controlador.}
 \newline
 
 \noindent
-\tcc*[h]{Função usada para definir que tipo de mensagens 
+\tcc*[h]{Função usada para definir quais tipos de mensagens 
 OpenFlow serão tratadas pelo algoritmo do proxy e especificamente
 por quais funções. O proxy habilita a função \textit{processPacketInMessage}
 a tratar as mensagens de entrada OpenFlow.}
@@ -339,7 +339,7 @@ Esse é o algoritmo básico do proxy RouteFlow. Todos os outros
 proxies implementados anteriormente seguem essa mesma
 arquitetura.
 
-Abaixo temos um pseudo algoritmo do mecanismo de comunicação
+Abaixo temos um pseudo do mecanismo de comunicação
 entre processos usado para funcionamento do proxy, no algoritmo
 anterior a classe é chamada de \textbf{MongoIPCMessageService}:
 \newline
@@ -352,8 +352,8 @@ do banco de dados e endereço do banco de dados.}
 
 \noindent
 \tcc*[h]{Função usada para criação da thread não bloqueante
-que executará a função ListenWorker. A função ListenWorker
-será mostrada logo abaixo.}
+que executa a função ListenWorker. A função ListenWorker
+é mostrada logo a seguir.}
 \newline
 \textit{\textbf{listen() \{}}
 \newline
@@ -504,8 +504,8 @@ a definição de campos e tipos de cada mensagem e retorna
 os arquivos com as respectivas implementações. 
 
 A Figura \ref{fig:mensagens}
-ilustra o sentido de cada mensagem, nos dizendo que tipo de mensagem
-é enviada para cada módulo. Vale lembra que as mensagens
+ilustra o sentido de cada mensagem, nos dizendo qual tipo de mensagem
+é enviado para cada módulo. Vale lembra que as mensagens
 são enviadas ao banco de dados centralizado para atuar no
 mecanismo de troca de mensagens entre processos (IPC).
 \newline
@@ -523,7 +523,7 @@ novo \textit{switch} OpenFlow ingressa no ambiente físico. As mensagens
 servem para informar ao servidor RouteFlow sobre a disponibilidade
 de portas para que as mesmas sejam associadas às interfaces
 das máquinas virtuais no ambiente virtual.
-\item \textit{PortConfig:} mensagem utilizada solicitação de 
+\item \textit{PortConfig:} mensagem utilizada para solicitação de 
 configuração de alguma porta do ambiente físico pelo servidor
 RouteFlow. Atualmente não é utilizada.
 \item \textit{DatapathConfig:} mensagem utilizada para
@@ -536,9 +536,9 @@ solicitação da instalação de regras nos switches
 OpenFlow. As mensagens FlowMod possuem em seu 
 corpo um conjunto de parâmetros que define uma nova regra 
 a ser aplicada à um \textit{switch} OpenFlow. Cabe ao proxy 
-criar a regra e envia-la corretamente ao \textit{switch}. 
-Para envio das regras é necessário a manipulação do 
-protocolo OpenFlow. O Floodlight fornece uma série de 
+criar a regra e enviá-la corretamente ao \textit{switch}. 
+Para envio das regras é necessária a manipulação do 
+protocolo OpenFlow. Floodlight fornece uma série de 
 funções para esse proposito, sendo usado como uma 
 API de comunicação entre os \textit{switches} OpenFlow e o 
 proxy.
@@ -549,7 +549,7 @@ porta seja associada à uma porta da máquina
 virtual do ambiente virtual.
 \item \textit{DatapathDown:} mensagem utilizada para que 
 o proxy informe ao servidor RouteFlow sobre a 
-desconexão de um \textit{switch} OpenFlow. O Floodlight, no papel 
+desconexão de um \textit{switch} OpenFlow. Floodlight, no papel 
 de controlador OpenFlow, mantem um conjunto de 
 informações à respeito dos \textit{switches} OpenFlow ativos, 
 podendo detectar quedas nas conexões dos mesmos. O 
@@ -557,11 +557,11 @@ servidor RouteFlow necessita ter esse tipo de informação para
 possíveis alterações nas regras dos 
 \textit{switches} OpenFlow.
 \item \textit{VirtualPlaneMap:} mensagem utilizada para que 
-o proxy associa cada porta do \textit{switch} 
+o proxy associe cada porta do \textit{switch} 
 OpenFlow à uma porta de uma máquina virtual no ambiente 
 virtual.
 \item \textit{DataPlaneMap:} mensagem utilizada para que o 
-servidor RouteFlow informe ao proxy à 
+servidor RouteFlow informe ao proxy a 
 respeito de uma associação de porta bem sucedida. O proxy 
 mantém uma tabela de associação entre portas 
 no ambiente virtual e portas no ambiente físico.
